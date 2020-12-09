@@ -56,9 +56,9 @@ namespace GoldBadgeConsoleChallengeClasses
         }
 
         // Edit an existing menu item
-        public bool EditMenuItem(string editItemName, MenuItem newMenuItem)
+        public bool EditMenuItem(int editItemNumber, MenuItem newMenuItem)
         {
-            var editMenuItem = FindMenuItemByName(editItemName);
+            var editMenuItem = FindMenuItemByName(editItemNumber);
 
             if (editMenuItem != null)
             {

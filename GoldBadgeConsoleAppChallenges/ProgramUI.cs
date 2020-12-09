@@ -9,16 +9,169 @@ namespace GoldBadgeConsoleChallengeConsole
 {
     class ProgramUI
     {
-        private List<Ingredient> _ingredientList = new List<Ingredient>();
-        private List<MenuItem> _menuItemList = new List<MenuItem>();
-
         private IngredientCRUD ingredientManipulator = new IngredientCRUD();
         private MenuItemCRUD menuItemManipulator = new MenuItemCRUD();
+
+        private List<Ingredient> _ingredientsList = new List<Ingredient>();
+        private List<MenuItem> _menu = new List<MenuItem>();
 
         public void Run()
         {
             SeedMenu();
+
             MainMenu();
+        }
+
+        // Main program menu
+        private void MainMenu()
+        {
+        MainMenu:
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("Welcome! What would you like to do?\n" +
+                "1. Create an ingredient or meal\n" +
+                "2. View all ingredients or meals\n" +
+                "3. Edit an ingredient or meal\n" +
+                "4. Delete an ingredient or meal\n" +
+                "5. Exit");
+            string inputChoice = Console.ReadLine();
+            bool parseChoice = int.TryParse(inputChoice, out int whatToDo);
+            if (parseChoice)
+            {
+                switch (whatToDo)
+                {
+                    case 1:
+                        Console.Clear();
+                        Console.ForegroundColor = ConsoleColor.DarkGreen;
+                        Console.WriteLine("Press I to create an ingredient or press M to create a meal.");
+                        var createWhich = Console.ReadKey().Key;
+                        if (createWhich == ConsoleKey.I)
+                        {
+                            var createdIngredient = CreateIngredient();
+                            ingredientManipulator.AddToIngredientsList(createdIngredient);
+                        }
+                        else if (createWhich == ConsoleKey.M)
+                        {
+                            var createdMeal = CreateMenuItem();
+                            menuItemManipulator.AddToMenu(createdMeal);
+                        }
+                        else
+                        {
+                            PressAnyKey();
+                            goto MainMenu;
+                        }
+                        goto MainMenu;
+                    case 2:
+                        Console.Clear();
+                        Console.ForegroundColor = ConsoleColor.White;
+                        Console.WriteLine("Press I to view all ingredients or press M to view all meals.");
+                        var viewWhich = Console.ReadKey().Key;
+                        if (viewWhich == ConsoleKey.I)
+                        {
+                            ViewAllIngredients();
+                            Console.ReadKey();
+                        }
+                        else if (viewWhich == ConsoleKey.M)
+                        {
+                            ViewAllMenuItems();
+                            Console.ReadKey();
+                        }
+                        else
+                        {
+                            PressAnyKey();
+                            goto MainMenu;
+                        }
+                        goto MainMenu;
+                    case 3:
+                        Console.Clear();
+                        Console.ForegroundColor = ConsoleColor.DarkYellow;
+                        Console.WriteLine("Press I to edit an ingredient or press M to edit a meal.");
+                        var editWhich = Console.ReadKey().Key;
+                        if (editWhich == ConsoleKey.I)
+                        {
+                            ViewAllIngredients();
+                            Console.WriteLine("Enter the name of the ingredient to edit:");
+                            string whichIngredientToEdit = Console.ReadLine();
+                            EditIngredient(whichIngredientToEdit);
+                        }
+                        else if (editWhich == ConsoleKey.M)
+                        {
+                            ViewAllMenuItems();
+                            Console.WriteLine("Enter the meal number to edit:");
+                            string inputMealToEdit = Console.ReadLine();
+                            bool parseMealToEdit = int.TryParse(inputMealToEdit, out int whichMealToEdit);
+                            if (parseMealToEdit)
+                            {
+                                EditMenuItem(whichMealToEdit);
+                            }
+                            else
+                            {
+                                PressAnyKey();
+                                goto MainMenu;
+                            }
+                        }
+                        else
+                        {
+                            PressAnyKey();
+                            goto MainMenu;
+                        }
+                        goto MainMenu;
+                    case 4:
+                        Console.Clear();
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
+                        Console.WriteLine("Press I to delete an ingredient or press M to delete a meal.");
+                        var deleteWhich = Console.ReadKey().Key;
+                        if (deleteWhich == ConsoleKey.I)
+                        {
+                            ViewAllIngredients();
+                            Console.WriteLine("Enter the name of the ingredient to delete:");
+                            string whichIngredientToDelete = Console.ReadLine();
+                            DeleteIngredient(whichIngredientToDelete);
+                        }
+                        else if (deleteWhich == ConsoleKey.M)
+                        {
+                            ViewAllMenuItems();
+                            Console.WriteLine("Enter the meal number to delete:");
+                            string inputMealToDelete = Console.ReadLine();
+                            bool parseMealToDelete = int.TryParse(inputMealToDelete, out int whichMealToDelete);
+                            if (parseMealToDelete)
+                            {
+                                DeleteMenuItem(whichMealToDelete);
+                            }
+                            else
+                            {
+                                PressAnyKey();
+                                goto MainMenu;
+                            }
+                        }
+                        else
+                        {
+                            PressAnyKey();
+                            goto MainMenu;
+                        }
+                        goto MainMenu;
+                    case 5:
+                        Console.Clear();
+                        Console.WriteLine("Press any key to confirm exit or press H to return to the home menu.");
+                        var toExit = Console.ReadKey().Key;
+                        if (toExit == ConsoleKey.H)
+                        {
+                            goto MainMenu;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    default:
+                        PressAnyKey();
+                        goto MainMenu;
+                }
+            }
+            else
+            {
+                PressAnyKey();
+                goto MainMenu;
+            }
         }
 
         // Helper method to handle errors
@@ -206,6 +359,7 @@ namespace GoldBadgeConsoleChallengeConsole
                 goto SetStock;
             }
 
+            ingredientManipulator.AddToIngredientsList(newIngredient);
             return newIngredient;
         }
 
@@ -220,7 +374,7 @@ namespace GoldBadgeConsoleChallengeConsole
             Console.WriteLine("What is the item number?");
             string inputItemNumber = Console.ReadLine();
             bool parseItemNumber = int.TryParse(inputItemNumber, out int itemNumber);
-            foreach(var menuItem in _menuItemList)
+            foreach(var menuItem in _menu)
             {
                 if (itemNumber == menuItem.MealNumber)
                 {
@@ -319,6 +473,7 @@ namespace GoldBadgeConsoleChallengeConsole
                 goto SetPrice;
             }
 
+            menuItemManipulator.AddToMenu(newMenuItem);
             return newMenuItem;
         }
 
@@ -379,7 +534,7 @@ namespace GoldBadgeConsoleChallengeConsole
                     if (menuItemNumber == meal.MealNumber)
                     {
                         var newMenuItem = CreateMenuItem();
-                        bool wasEdited = menuItemManipulator.EditMenuItem(meal.MealName, newMenuItem);
+                        bool wasEdited = menuItemManipulator.EditMenuItem(meal.MealNumber, newMenuItem);
                         if (wasEdited)
                         {
                             Console.WriteLine("Menu item successfully updated!");
@@ -445,47 +600,180 @@ namespace GoldBadgeConsoleChallengeConsole
         // Pre-populate the lists of ingredients and meals
         private void SeedMenu()
         {
-            var avocado = new Ingredient("Avocado", 0.75m, true, true, true, true, 20, IngredientCategory.Vegetable);
-            var lettuce = new Ingredient("Lettuce", 1.00m, false, true, true, true, 15, IngredientCategory.Vegetable);
-            var tomato = new Ingredient("Sliced Tomato", 0.50m, false, true, true, true, 50, IngredientCategory.Vegetable);
-            var mushroom = new Ingredient("Mushroom", 0.50m, false, true, true, true, 100, IngredientCategory.Vegetable);
-            var onion = new Ingredient("Red Onion", 0.50m, false, true, true, true, 30, IngredientCategory.Vegetable);
-
-            var bacon = new Ingredient("Bacon", 1.00m, true, true, true, false, 50, IngredientCategory.Protein);
-            var chicken = new Ingredient("Chicken", 3.00m, false, true, true, false, 20, IngredientCategory.Protein);
-            var roastBeef = new Ingredient("Roast Beef", 4.00m, false, true, true, false, 50, IngredientCategory.Protein);
-            var shrimp = new Ingredient("Shrimp", 5.00m, false, true, true, false, 250, IngredientCategory.Protein);
-            var salmon = new Ingredient("Salmon", 5.00m, false, true, true, false, 20, IngredientCategory.Protein);
-
-            var gouda = new Ingredient("Smoked Gouda", 0.75m, true, false, true, false, 25, IngredientCategory.Cheese);
-            var shreddedParmesan = new Ingredient("Shredded Parmesan Cheese", 2.00m, false, false, true, false, 10, IngredientCategory.Cheese);
-            var shreddedPepperJack = new Ingredient("Shredded Pepper Jack", 1.50m, false, false, true, false, 10, IngredientCategory.Cheese);
-            var swiss = new Ingredient("Swiss Cheese Slice", 0.50m, false, false, true, false, 40, IngredientCategory.Cheese);
-            var cheddar = new Ingredient("Aged Sharp Cheddar", 0.50m, false, false, true, false, 50, IngredientCategory.Cheese);
-
-            var frenchFries = new Ingredient("Side of French Fries", 1.50m, true, true, true, true, 100, IngredientCategory.Side);
-            var softDrink = new Ingredient("Fountain Drink", 2.00m, true, true, true, true, 250, IngredientCategory.Side);
-            var chips = new Ingredient("Bag of Chips", 1.50m, true, true, true, true, 100, IngredientCategory.Side);
-            var coleslaw = new Ingredient("Coleslaw", 1.50m, true, false, true, false, 50, IngredientCategory.Side);
-            var cookie = new Ingredient("Chocolate chip cookie", 2.00m, true, false, false, false, 25, IngredientCategory.Side);
-
+            // Create and add bread options to ingredient list
             var crouton = new Ingredient("Croutons", 1.00m, false, true, false, true, 30, IngredientCategory.Bread);
+            ingredientManipulator.AddToIngredientsList(crouton);
             var tortilla = new Ingredient("Tortilla Wrap", 0.75m, false, true, false, true, 100, IngredientCategory.Bread);
+            ingredientManipulator.AddToIngredientsList(tortilla);
             var panini = new Ingredient("Panini Bread", 1.50m, false, true, false, true, 40, IngredientCategory.Bread);
+            ingredientManipulator.AddToIngredientsList(panini);
             var sourdough = new Ingredient("Sourdough", 2.00m, false, true, false, true, 30, IngredientCategory.Bread);
+            ingredientManipulator.AddToIngredientsList(sourdough);
             var rye = new Ingredient("Rye Toast", 2.00m, false, true, false, true, 30, IngredientCategory.Bread);
+            ingredientManipulator.AddToIngredientsList(rye);
 
-            var caesarDressing = new Ingredient("Caesar Dressing", 2.00m, false, false, true, false, 5, IngredientCategory.Sauce);
-            var chipotle = new Ingredient("Chipotle Sauce", 0.50m, false, true, true, true, 5, IngredientCategory.Sauce);
-            var hotSauce = new Ingredient("Hot Sauce", 1.00m, true, true, true, true, 15, IngredientCategory.Sauce);
-            var spicyMustard = new Ingredient("Spicy Mustard", 1.00m, false, true, true, true, 15, IngredientCategory.Sauce);
-            var guacamole = new Ingredient("Guacamole", 2.50m, true, true, true, true, 20, IngredientCategory.Sauce);
+            // Create and add cheese options to ingredient list
+            var gouda = new Ingredient("Smoked Gouda", 0.75m, true, false, true, false, 25, IngredientCategory.Cheese);
+            ingredientManipulator.AddToIngredientsList(gouda);
+            var shreddedParmesan = new Ingredient("Shredded Parmesan Cheese", 2.00m, false, false, true, false, 10, IngredientCategory.Cheese);
+            ingredientManipulator.AddToIngredientsList(shreddedParmesan);
+            var shreddedPepperJack = new Ingredient("Shredded Pepper Jack", 1.50m, false, false, true, false, 10, IngredientCategory.Cheese);
+            ingredientManipulator.AddToIngredientsList(shreddedPepperJack);
+            var swiss = new Ingredient("Swiss Cheese Slice", 0.50m, false, false, true, false, 40, IngredientCategory.Cheese);
+            ingredientManipulator.AddToIngredientsList(swiss);
+            var cheddar = new Ingredient("Aged Sharp Cheddar", 0.50m, false, false, true, false, 50, IngredientCategory.Cheese);
+            ingredientManipulator.AddToIngredientsList(cheddar);
 
+            // Create and add filling options to ingredient list
             var beans = new Ingredient("Beans", 0.75m, false, true, true, true, 25, IngredientCategory.Filling);
+            ingredientManipulator.AddToIngredientsList(beans);
             var rice = new Ingredient("White Rice", 0.75m, false, true, true, true, 10, IngredientCategory.Filling);
+            ingredientManipulator.AddToIngredientsList(rice);
             var tofu = new Ingredient("Tofu", 1.00m, false, true, true, true, 50, IngredientCategory.Filling);
+            ingredientManipulator.AddToIngredientsList(tofu);
             var polenta = new Ingredient("Polenta", 2.00m, false, true, true, true, 20, IngredientCategory.Filling);
+            ingredientManipulator.AddToIngredientsList(polenta);
             var shirataki = new Ingredient("Shirataki", 3.00m, false, true, true, true, 15, IngredientCategory.Filling);
+            ingredientManipulator.AddToIngredientsList(shirataki);
+
+            // Create and add protein options to ingredient list
+            var bacon = new Ingredient("Bacon", 1.00m, true, true, true, false, 50, IngredientCategory.Protein);
+            ingredientManipulator.AddToIngredientsList(bacon);
+            var chicken = new Ingredient("Chicken", 3.00m, false, true, true, false, 20, IngredientCategory.Protein);
+            ingredientManipulator.AddToIngredientsList(chicken);
+            var roastBeef = new Ingredient("Roast Beef", 4.00m, false, true, true, false, 50, IngredientCategory.Protein);
+            ingredientManipulator.AddToIngredientsList(roastBeef);
+            var shrimp = new Ingredient("Shrimp", 5.00m, false, true, true, false, 250, IngredientCategory.Protein);
+            ingredientManipulator.AddToIngredientsList(shrimp);
+            var salmon = new Ingredient("Salmon", 5.00m, false, true, true, false, 20, IngredientCategory.Protein);
+            ingredientManipulator.AddToIngredientsList(salmon);
+
+            // Create and add sauce options to ingredient list
+            var caesarDressing = new Ingredient("Caesar Dressing", 2.00m, false, false, true, false, 5, IngredientCategory.Sauce);
+            ingredientManipulator.AddToIngredientsList(caesarDressing);
+            var chipotle = new Ingredient("Chipotle Sauce", 0.50m, false, true, true, true, 5, IngredientCategory.Sauce);
+            ingredientManipulator.AddToIngredientsList(chipotle);
+            var hotSauce = new Ingredient("Hot Sauce", 1.00m, true, true, true, true, 15, IngredientCategory.Sauce);
+            ingredientManipulator.AddToIngredientsList(hotSauce);
+            var spicyMustard = new Ingredient("Spicy Mustard", 1.00m, false, true, true, true, 15, IngredientCategory.Sauce);
+            ingredientManipulator.AddToIngredientsList(spicyMustard);
+            var guacamole = new Ingredient("Guacamole", 2.50m, true, true, true, true, 20, IngredientCategory.Sauce);
+            ingredientManipulator.AddToIngredientsList(guacamole);
+
+            // Create and add side options to ingredient list
+            var frenchFries = new Ingredient("Side of French Fries", 1.50m, true, true, true, true, 100, IngredientCategory.Side);
+            ingredientManipulator.AddToIngredientsList(frenchFries);
+            var softDrink = new Ingredient("Fountain Drink", 2.00m, true, true, true, true, 250, IngredientCategory.Side);
+            ingredientManipulator.AddToIngredientsList(softDrink);
+            var chips = new Ingredient("Bag of Chips", 1.50m, true, true, true, true, 100, IngredientCategory.Side);
+            ingredientManipulator.AddToIngredientsList(chips);
+            var coleslaw = new Ingredient("Coleslaw", 1.50m, true, false, true, false, 50, IngredientCategory.Side);
+            ingredientManipulator.AddToIngredientsList(coleslaw);
+            var cookie = new Ingredient("Chocolate chip cookie", 2.00m, true, false, false, false, 25, IngredientCategory.Side);
+            ingredientManipulator.AddToIngredientsList(cookie);
+
+            // Create and add vegetable options to ingredient list
+            var avocado = new Ingredient("Avocado", 0.75m, true, true, true, true, 20, IngredientCategory.Vegetable);
+            ingredientManipulator.AddToIngredientsList(avocado);
+            var lettuce = new Ingredient("Lettuce", 1.00m, false, true, true, true, 15, IngredientCategory.Vegetable);
+            ingredientManipulator.AddToIngredientsList(lettuce);
+            var tomato = new Ingredient("Sliced Tomato", 0.50m, false, true, true, true, 50, IngredientCategory.Vegetable);
+            ingredientManipulator.AddToIngredientsList(tomato);
+            var mushroom = new Ingredient("Mushroom", 0.50m, false, true, true, true, 100, IngredientCategory.Vegetable);
+            ingredientManipulator.AddToIngredientsList(mushroom);
+            var onion = new Ingredient("Red Onion", 0.50m, false, true, true, true, 30, IngredientCategory.Vegetable);
+            ingredientManipulator.AddToIngredientsList(onion);
+
+            // Create and add a BLT to the menu
+            var bltIngredients = new List<Ingredient>()
+            {
+                rye,
+                swiss,
+                bacon,
+                spicyMustard,
+                chips,
+                softDrink,
+                lettuce,
+                tomato
+            };
+            decimal bltPrice = 0;
+            foreach(var ingredient in bltIngredients)
+            {
+                bltPrice += decimal.Round(ingredient.IngredientPrice, 2);
+            }
+            var blt = new MenuItem(1, "BLT", "A classic BLT on rye with Swiss cheese and spicy mustard. Comes with chips and a drink", bltIngredients, bltPrice);
+            menuItemManipulator.AddToMenu(blt);
+
+            // Create and add a Bean & Rice Burrito to the menu
+            var beanAndRiceBurritoIngredients = new List<Ingredient>()
+            {
+                tortilla, 
+                shreddedPepperJack,
+                beans,
+                rice,
+                chicken,
+                chipotle
+            };
+            decimal beanAndRiceBurritoPrice = 0;
+            foreach(var ingredient in beanAndRiceBurritoIngredients)
+            {
+                beanAndRiceBurritoPrice += decimal.Round(ingredient.IngredientPrice, 2);
+            }
+            var beanAndRiceBurrito = new MenuItem(2, "Bean & Rice Burrito", "Chicken on a bed of beans and rice, wrapped in a flour tortilla with shredded pepper jack cheese and our housemade chipotle sauce. Add guacamole for $1.00 more.", beanAndRiceBurritoIngredients, beanAndRiceBurritoPrice);
+            menuItemManipulator.AddToMenu(beanAndRiceBurrito);
+
+            // Create and add Shrimp Fried Rice to the menu
+            var shrimpFriedRiceIngredients = new List<Ingredient>() 
+            {
+                rice,
+                tofu,
+                shrimp,
+                tomato,
+                onion
+            };
+            decimal shrimpFriedRicePrice = 0;
+            foreach(var ingredient in shrimpFriedRiceIngredients)
+            {
+                shrimpFriedRicePrice += decimal.Round(ingredient.IngredientPrice, 2);
+            }
+            var shrimpFriedRice = new MenuItem(3, "Shrimp Fried Rice", "Fried rice with shrimp, tofu, and veggies.", shrimpFriedRiceIngredients, shrimpFriedRicePrice);
+            menuItemManipulator.AddToMenu(shrimpFriedRice);
+
+            // Create and add Grilled Cheese to the menu
+            var grilledCheeseIngredients = new List<Ingredient>()
+            {
+                panini,
+                gouda,
+                roastBeef,
+                spicyMustard,
+                frenchFries,
+                softDrink
+            };
+            decimal grilledCheesePrice = 0;
+            foreach(var ingredient in grilledCheeseIngredients)
+            {
+                grilledCheesePrice += decimal.Round(ingredient.IngredientPrice, 2);
+            }
+            var grilledCheese = new MenuItem(4, "Grilled Cheese", "Grilled cheese, but fancy. Roast beef and smoked gouda, grilled to melty perfection on a panini.", grilledCheeseIngredients, grilledCheesePrice);
+            menuItemManipulator.AddToMenu(grilledCheese);
+
+            // Create and add a Caesar Salad to the menu
+            var caesarSaladIngredients = new List<Ingredient>()
+            {
+                crouton,
+                shreddedParmesan,
+                chicken,
+                caesarDressing,
+                lettuce, 
+                onion
+            };
+            decimal caesarSaladPrice = 0;
+            foreach(var ingredient in caesarSaladIngredients)
+            {
+                caesarSaladPrice += decimal.Round(ingredient.IngredientPrice, 2);
+            }
+            var caesarSalad = new MenuItem(5, "Caesar Salad", "A traditional Caesar salad made with locally sourced produce and housemade dressing.", caesarSaladIngredients, caesarSaladPrice);
+            menuItemManipulator.AddToMenu(caesarSalad);
         }
     }
 }
