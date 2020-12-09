@@ -46,11 +46,11 @@ namespace GoldBadgeConsoleChallengeClasses
         private List<Ingredient> _listOfIngredients = new List<Ingredient>();
 
         // Helper method to find an ingredient by name
-        private Ingredient FindIngredientByName(string ingredientName)
+        public Ingredient FindIngredientByName(string ingredientName)
         {
             foreach(var ingredient in _listOfIngredients)
             {
-                if (ingredientName.ToLower() == ingredient.IngredientName.ToLower())
+                if (ingredient.IngredientName.ToLower().Contains(ingredientName.ToLower()))
                 {
                     return ingredient;
                 }

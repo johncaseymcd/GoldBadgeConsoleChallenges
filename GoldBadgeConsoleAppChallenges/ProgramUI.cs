@@ -9,15 +9,16 @@ namespace GoldBadgeConsoleChallengeConsole
 {
     class ProgramUI
     {
-        private IngredientCRUD ingredientManipulator = new IngredientCRUD();
-        private MenuItemCRUD menuItemManipulator = new MenuItemCRUD();
+        IngredientCRUD ingredientManipulator = new IngredientCRUD();
+        MenuItemCRUD menuItemManipulator = new MenuItemCRUD();
 
-        private List<Ingredient> _ingredientList = new List<Ingredient>();
-        private List<MenuItem> _menu = new List<MenuItem>();
+        List<Ingredient> _ingredientList = new List<Ingredient>();
+        List<MenuItem> _menu = new List<MenuItem>();
 
         public void Run()
         {
             SeedMenu();
+
             MainMenu();
         }
 
@@ -40,19 +41,21 @@ namespace GoldBadgeConsoleChallengeConsole
             {
                 switch (whatToDo)
                 {
-                    case 1:
+                    case 1: // Create a new ingredient or meal
                         Console.Clear();
                         Console.ForegroundColor = ConsoleColor.DarkGreen;
                         Console.WriteLine("Press I to create an ingredient or press M to create a meal.");
-                        var createWhich = Console.ReadKey().Key;
-                        if (createWhich == ConsoleKey.I)
+                        string createWhich= Console.ReadLine().ToLower();
+                        if (createWhich == "i")
                         {
                             var createdIngredient = CreateIngredient();
+                            _ingredientList.Add(createdIngredient);
                             goto MainMenu;
                         }
-                        else if (createWhich == ConsoleKey.M)
+                        else if (createWhich == "m")
                         {
                             var createdMeal = CreateMenuItem();
+                            _menu.Add(createdMeal);
                             goto MainMenu;
                         }
                         else
@@ -60,18 +63,18 @@ namespace GoldBadgeConsoleChallengeConsole
                             PressAnyKey();
                             goto MainMenu;
                         }
-                    case 2:
+                    case 2: // View list of all ingredients or meals
                         Console.Clear();
                         Console.ForegroundColor = ConsoleColor.White;
                         Console.WriteLine("Press I to view all ingredients or press M to view all meals.");
-                        var viewWhich = Console.ReadKey().Key;
-                        if (viewWhich == ConsoleKey.I)
+                        string viewWhich = Console.ReadLine().ToLower();
+                        if (viewWhich == "i")
                         {
                             ViewAllIngredients();
                             Console.ReadKey();
                             goto MainMenu;
                         }
-                        else if (viewWhich == ConsoleKey.M)
+                        else if (viewWhich == "m")
                         {
                             ViewAllMenuItems();
                             Console.ReadKey();
@@ -82,12 +85,12 @@ namespace GoldBadgeConsoleChallengeConsole
                             PressAnyKey();
                             goto MainMenu;
                         }
-                    case 3:
+                    case 3: // Edit an ingredient or meal
                         Console.Clear();
                         Console.ForegroundColor = ConsoleColor.DarkYellow;
                         Console.WriteLine("Press I to edit an ingredient or press M to edit a meal.");
-                        var editWhich = Console.ReadKey().Key;
-                        if (editWhich == ConsoleKey.I)
+                        string editWhich = Console.ReadLine().ToLower();
+                        if (editWhich == "i")
                         {
                             ViewAllIngredients();
                             Console.WriteLine("Enter the name of the ingredient to edit:");
@@ -95,7 +98,7 @@ namespace GoldBadgeConsoleChallengeConsole
                             EditIngredient(whichIngredientToEdit);
                             goto MainMenu;
                         }
-                        else if (editWhich == ConsoleKey.M)
+                        else if (editWhich == "m")
                         {
                             ViewAllMenuItems();
                             Console.WriteLine("Enter the meal number to edit:");
@@ -117,12 +120,12 @@ namespace GoldBadgeConsoleChallengeConsole
                             PressAnyKey();
                             goto MainMenu;
                         }
-                    case 4:
+                    case 4: // Delete an ingredient or meal
                         Console.Clear();
                         Console.ForegroundColor = ConsoleColor.DarkRed;
                         Console.WriteLine("Press I to delete an ingredient or press M to delete a meal.");
-                        var deleteWhich = Console.ReadKey().Key;
-                        if (deleteWhich == ConsoleKey.I)
+                        string deleteWhich = Console.ReadLine().ToLower();
+                        if (deleteWhich == "i")
                         {
                             ViewAllIngredients();
                             Console.WriteLine("Enter the name of the ingredient to delete:");
@@ -130,7 +133,7 @@ namespace GoldBadgeConsoleChallengeConsole
                             DeleteIngredient(whichIngredientToDelete);
                             goto MainMenu;
                         }
-                        else if (deleteWhich == ConsoleKey.M)
+                        else if (deleteWhich == "m")
                         {
                             ViewAllMenuItems();
                             Console.WriteLine("Enter the meal number to delete:");
@@ -419,20 +422,27 @@ namespace GoldBadgeConsoleChallengeConsole
             Console.WriteLine("How many ingredients are in this meal?");
             string inputIngredients = Console.ReadLine();
             bool parseIngredients = int.TryParse(inputIngredients, out int howManyIngredients);
+            var newMenuItemIngredients = new List<Ingredient>();
             if (parseIngredients)
             {
                 for (int x = 0; x < howManyIngredients; x++)
                 {
+                EnterIngredientName:
                     Console.WriteLine("What ingredient would you like to add to the meal?");
                     string ingredientName = Console.ReadLine().ToLower();
-                    foreach(var ingredient in _ingredientList)
+                    var ingredientToAdd = ingredientManipulator.FindIngredientByName(ingredientName);
+                    if (ingredientToAdd != null)
                     {
-                        if(ingredientName == ingredient.IngredientName.ToLower())
-                        {
-                            newMenuItem.IngredientsList.Add(ingredient);
-                        }
+                        newMenuItemIngredients.Add(ingredientToAdd);
                     }
+                    else
+                    {
+                        Console.WriteLine("Ingredient not found. Please try again.");
+                        goto EnterIngredientName;
+                    }
+                    
                 }
+                newMenuItem.IngredientsList = newMenuItemIngredients;
             }
             else
             {
@@ -490,37 +500,37 @@ namespace GoldBadgeConsoleChallengeConsole
                 if(ingredient.IngredientType == IngredientCategory.Bread)
                 {
                     Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.WriteLine($"* {ingredient.IngredientName}: {ingredient.StockLevel} currently in stock\n");
+                    Console.WriteLine($"* {ingredient.IngredientName}: {ingredient.StockLevel} currently in stock");
                 }
                 else if (ingredient.IngredientType == IngredientCategory.Cheese)
                 {
                     Console.ForegroundColor = ConsoleColor.DarkYellow;
-                    Console.WriteLine($"* {ingredient.IngredientName}: {ingredient.StockLevel} currently in stock\n");
+                    Console.WriteLine($"* {ingredient.IngredientName}: {ingredient.StockLevel} currently in stock");
                 }
                 else if (ingredient.IngredientType == IngredientCategory.Filling)
                 {
                     Console.ForegroundColor = ConsoleColor.Magenta;
-                    Console.WriteLine($"* {ingredient.IngredientName}: {ingredient.StockLevel} currently in stock\n");
+                    Console.WriteLine($"* {ingredient.IngredientName}: {ingredient.StockLevel} currently in stock");
                 }
                 else if (ingredient.IngredientType == IngredientCategory.Protein)
                 {
                     Console.ForegroundColor = ConsoleColor.DarkRed;
-                    Console.WriteLine($"* {ingredient.IngredientName}: {ingredient.StockLevel} currently in stock\n");
+                    Console.WriteLine($"* {ingredient.IngredientName}: {ingredient.StockLevel} currently in stock");
                 }
                 else if (ingredient.IngredientType == IngredientCategory.Sauce)
                 {
                     Console.ForegroundColor = ConsoleColor.White;
-                    Console.WriteLine($"* {ingredient.IngredientName}: {ingredient.StockLevel} currently in stock\n");
+                    Console.WriteLine($"* {ingredient.IngredientName}: {ingredient.StockLevel} currently in stock");
                 }
                 else if (ingredient.IngredientType == IngredientCategory.Side)
                 {
                     Console.ForegroundColor = ConsoleColor.Blue;
-                    Console.WriteLine($"* {ingredient.IngredientName}: {ingredient.StockLevel} currently in stock\n");
+                    Console.WriteLine($"* {ingredient.IngredientName}: {ingredient.StockLevel} currently in stock");
                 }
                 else if (ingredient.IngredientType == IngredientCategory.Vegetable)
                 {
                     Console.ForegroundColor = ConsoleColor.DarkGreen;
-                    Console.WriteLine($"* {ingredient.IngredientName}: {ingredient.StockLevel} currently in stock\n");
+                    Console.WriteLine($"* {ingredient.IngredientName}: {ingredient.StockLevel} currently in stock");
                 }
             }
         }
@@ -532,7 +542,7 @@ namespace GoldBadgeConsoleChallengeConsole
             var allMenuItems = menuItemManipulator.GetMenuItems();
             foreach(var item in allMenuItems)
             {
-                Console.WriteLine($"#{item.MealNumber}. {item.MealName}\n" +
+                Console.WriteLine($"#{item.MealNumber}. {item.MealName} - {item.MealDescription}\n" +
                     $"    ${item.MealPrice}\n");
             }
         }
@@ -774,7 +784,7 @@ namespace GoldBadgeConsoleChallengeConsole
             {
                 shrimpFriedRicePrice += decimal.Round(ingredient.IngredientPrice, 2);
             }
-            var shrimpFriedRice = new MenuItem(3, "Shrimp Fried Rice", "Fried rice with shrimp, tofu, and veggies.", shrimpFriedRiceIngredients, shrimpFriedRicePrice);
+            var shrimpFriedRice = new MenuItem(3, "Shrimp Fried Rice", "Asian-inspired fried rice with shrimp, tofu, and veggies.", shrimpFriedRiceIngredients, shrimpFriedRicePrice);
             menuItemManipulator.AddToMenu(shrimpFriedRice);
 
             // Create and add Grilled Cheese to the menu
@@ -792,7 +802,7 @@ namespace GoldBadgeConsoleChallengeConsole
             {
                 grilledCheesePrice += decimal.Round(ingredient.IngredientPrice, 2);
             }
-            var grilledCheese = new MenuItem(4, "Grilled Cheese", "Grilled cheese, but fancy. Roast beef and smoked gouda, grilled to melty perfection on a panini.", grilledCheeseIngredients, grilledCheesePrice);
+            var grilledCheese = new MenuItem(4, "Grilled Cheese", "Grilled cheese, but fancy. Roast beef and smoked gouda, grilled to melty perfection on a panini. Comes with fries and a soft drink.", grilledCheeseIngredients, grilledCheesePrice);
             menuItemManipulator.AddToMenu(grilledCheese);
 
             // Create and add a Caesar Salad to the menu
