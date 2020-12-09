@@ -8,11 +8,11 @@ namespace GoldBadgeConsoleAppTests
     [TestClass]
     public class MenuTest
     {
-        Ingredient lettuce = new Ingredient("Lettuce", 1.00m, false, true, true, true, 15);
-        Ingredient chicken = new Ingredient("Chicken", 3.00m, false, true, true, false, 20);
-        Ingredient shreddedParmesan = new Ingredient("Shredded Parmesan Cheese", 2.00m, false, false, true, false, 10);
-        Ingredient crouton = new Ingredient("Croutons", 1.00m, false, true, false, true, 30);
-        Ingredient dressing = new Ingredient("Caesar Dressing", 2.00m, false, false, true, false, 5);
+        Ingredient lettuce = new Ingredient("Lettuce", 1.00m, false, true, true, true, 15, IngredientCategory.Vegetable);
+        Ingredient chicken = new Ingredient("Chicken", 3.00m, false, true, true, false, 20, IngredientCategory.Protein);
+        Ingredient shreddedParmesan = new Ingredient("Shredded Parmesan Cheese", 2.00m, false, false, true, false, 10, IngredientCategory.Cheese);
+        Ingredient crouton = new Ingredient("Croutons", 1.00m, false, true, false, true, 30, IngredientCategory.Bread);
+        Ingredient dressing = new Ingredient("Caesar Dressing", 2.00m, false, false, true, false, 5, IngredientCategory.Sauce);
         List<Ingredient> _caesarSalad = new List<Ingredient>();
         MenuItemCRUD menuTester = new MenuItemCRUD();
 
@@ -67,11 +67,11 @@ namespace GoldBadgeConsoleAppTests
             menuTester.AddToMenu(chickenCaesarSalad);
 
             // Act
-            Ingredient beans = new Ingredient("Beans", 0.75m, false, true, true, true, 25);
-            Ingredient tortilla = new Ingredient("Tortilla Wrap", 0.75m, false, true, false, true, 100);
-            Ingredient rice = new Ingredient("White Rice", 0.75m, false, true, true, true, 10);
-            Ingredient shreddedPepperJack = new Ingredient("Shredded Pepper Jack", 2.00m, false, false, true, false, 10);
-            Ingredient chipotle = new Ingredient("Chipotle Sauce", 0.50m, false, true, true, true, 5);
+            Ingredient beans = new Ingredient("Beans", 0.75m, false, true, true, true, 25, IngredientCategory.Filling);
+            Ingredient tortilla = new Ingredient("Tortilla Wrap", 0.75m, false, true, false, true, 100, IngredientCategory.Bread);
+            Ingredient rice = new Ingredient("White Rice", 0.75m, false, true, true, true, 10, IngredientCategory.Filling);
+            Ingredient shreddedPepperJack = new Ingredient("Shredded Pepper Jack", 2.00m, false, false, true, false, 10, IngredientCategory.Cheese);
+            Ingredient chipotle = new Ingredient("Chipotle Sauce", 0.50m, false, true, true, true, 5, IngredientCategory.Sauce);
             List<Ingredient> _beanBurrito = new List<Ingredient>();
             _beanBurrito.Add(beans);
             _beanBurrito.Add(tortilla);
@@ -79,7 +79,7 @@ namespace GoldBadgeConsoleAppTests
             _beanBurrito.Add(shreddedPepperJack);
             _beanBurrito.Add(chipotle);
             MenuItem beanAndRiceBurrito = new MenuItem(2, "Bean & Rice Burrito", "Beans, rice, and cheese dressed in our housemade chipotle sauce and wrapped snugly in a flour tortilla.", _beanBurrito, 4.75m);
-            bool wasEdited = menuTester.EditMenuItem("Chicken caesar salad", beanAndRiceBurrito);
+            bool wasEdited = menuTester.EditMenuItem(1, beanAndRiceBurrito);
 
             // Assert
             Assert.IsTrue(wasEdited, "Edit was not successful.");
@@ -98,7 +98,7 @@ namespace GoldBadgeConsoleAppTests
             menuTester.AddToMenu(chickenCaesarSalad);
 
             // Act
-            bool wasDeleted = menuTester.RemoveFromMenu("Chicken caesar salad");
+            bool wasDeleted = menuTester.RemoveFromMenu(1);
 
             // Assert
             Assert.IsTrue(wasDeleted, "Delete was not successful.");

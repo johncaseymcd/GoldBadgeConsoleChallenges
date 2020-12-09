@@ -8,7 +8,7 @@ namespace GoldBadgeConsoleChallengeTests
     [TestClass]
     public class IngredientTest
     {
-        Ingredient avocado = new Ingredient("Avocado", 0.75m, true, true, true, true, 12);
+        Ingredient avocado = new Ingredient("Avocado", 0.75m, true, true, true, true, 12, IngredientCategory.Vegetable);
         IngredientCRUD ingredientTester = new IngredientCRUD();
 
         [TestMethod]
@@ -41,7 +41,7 @@ namespace GoldBadgeConsoleChallengeTests
         public void IngredientEditTest()
         {
             // Arrange
-            var chicken = new Ingredient("Chicken", 4.00m, false, true, true, false, 20);
+            var chicken = new Ingredient("Chicken", 4.00m, false, true, true, false, 20, IngredientCategory.Protein);
 
             // Act
             ingredientTester.AddToIngredientsList(avocado);

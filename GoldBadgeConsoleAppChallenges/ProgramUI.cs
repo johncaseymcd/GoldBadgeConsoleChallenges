@@ -18,8 +18,6 @@ namespace GoldBadgeConsoleChallengeConsole
         public void Run()
         {
             SeedMenu();
-            _ingredientList = ingredientManipulator.GetIngredientsList();
-            _menu = menuItemManipulator.GetMenuItems();
             MainMenu();
         }
 
@@ -27,6 +25,7 @@ namespace GoldBadgeConsoleChallengeConsole
         private void MainMenu()
         {
         MainMenu:
+            
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("Welcome! What would you like to do?\n\n" +
@@ -49,19 +48,18 @@ namespace GoldBadgeConsoleChallengeConsole
                         if (createWhich == ConsoleKey.I)
                         {
                             var createdIngredient = CreateIngredient();
-                            ingredientManipulator.AddToIngredientsList(createdIngredient);
+                            goto MainMenu;
                         }
                         else if (createWhich == ConsoleKey.M)
                         {
                             var createdMeal = CreateMenuItem();
-                            menuItemManipulator.AddToMenu(createdMeal);
+                            goto MainMenu;
                         }
                         else
                         {
                             PressAnyKey();
                             goto MainMenu;
                         }
-                        goto MainMenu;
                     case 2:
                         Console.Clear();
                         Console.ForegroundColor = ConsoleColor.White;
@@ -71,18 +69,19 @@ namespace GoldBadgeConsoleChallengeConsole
                         {
                             ViewAllIngredients();
                             Console.ReadKey();
+                            goto MainMenu;
                         }
                         else if (viewWhich == ConsoleKey.M)
                         {
                             ViewAllMenuItems();
                             Console.ReadKey();
+                            goto MainMenu;
                         }
                         else
                         {
                             PressAnyKey();
                             goto MainMenu;
                         }
-                        goto MainMenu;
                     case 3:
                         Console.Clear();
                         Console.ForegroundColor = ConsoleColor.DarkYellow;
@@ -94,6 +93,7 @@ namespace GoldBadgeConsoleChallengeConsole
                             Console.WriteLine("Enter the name of the ingredient to edit:");
                             string whichIngredientToEdit = Console.ReadLine();
                             EditIngredient(whichIngredientToEdit);
+                            goto MainMenu;
                         }
                         else if (editWhich == ConsoleKey.M)
                         {
@@ -104,6 +104,7 @@ namespace GoldBadgeConsoleChallengeConsole
                             if (parseMealToEdit)
                             {
                                 EditMenuItem(whichMealToEdit);
+                                goto MainMenu;
                             }
                             else
                             {
@@ -116,7 +117,6 @@ namespace GoldBadgeConsoleChallengeConsole
                             PressAnyKey();
                             goto MainMenu;
                         }
-                        goto MainMenu;
                     case 4:
                         Console.Clear();
                         Console.ForegroundColor = ConsoleColor.DarkRed;
@@ -128,6 +128,7 @@ namespace GoldBadgeConsoleChallengeConsole
                             Console.WriteLine("Enter the name of the ingredient to delete:");
                             string whichIngredientToDelete = Console.ReadLine();
                             DeleteIngredient(whichIngredientToDelete);
+                            goto MainMenu;
                         }
                         else if (deleteWhich == ConsoleKey.M)
                         {
@@ -138,6 +139,7 @@ namespace GoldBadgeConsoleChallengeConsole
                             if (parseMealToDelete)
                             {
                                 DeleteMenuItem(whichMealToDelete);
+                                goto MainMenu;
                             }
                             else
                             {
@@ -150,7 +152,6 @@ namespace GoldBadgeConsoleChallengeConsole
                             PressAnyKey();
                             goto MainMenu;
                         }
-                        goto MainMenu;
                     case 5:
                         Console.Clear();
                         Console.WriteLine("Press any key to confirm exit or press H to return to the home menu.");
@@ -190,12 +191,13 @@ namespace GoldBadgeConsoleChallengeConsole
 
         // Set type of ingredient from enum
         SetIngredientType:
+            Console.Clear();
             Console.WriteLine("What type of ingredient are you adding?");
             int typeCounter = 0;
-            foreach(var ingredient in allIngredients)
+            foreach(var ingredientType in Enum.GetValues(typeof(IngredientCategory)))
             {
                 typeCounter++;
-                Console.WriteLine($"{typeCounter}. {ingredient.IngredientType.ToString()}");
+                Console.WriteLine($"{typeCounter}. {ingredientType}");
             }
             string inputType = Console.ReadLine();
             bool parseType = int.TryParse(inputType, out int whichType);
@@ -372,7 +374,7 @@ namespace GoldBadgeConsoleChallengeConsole
         // Set menu item number
         SetItemNumber:
             Console.Clear();
-            Console.WriteLine("What is the item number?");
+            Console.WriteLine("What is the meal number?");
             string inputItemNumber = Console.ReadLine();
             bool parseItemNumber = int.TryParse(inputItemNumber, out int itemNumber);
             foreach(var menuItem in _menu)
