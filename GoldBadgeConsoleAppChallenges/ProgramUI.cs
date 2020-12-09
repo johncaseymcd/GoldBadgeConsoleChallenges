@@ -12,13 +12,14 @@ namespace GoldBadgeConsoleChallengeConsole
         private IngredientCRUD ingredientManipulator = new IngredientCRUD();
         private MenuItemCRUD menuItemManipulator = new MenuItemCRUD();
 
-        private List<Ingredient> _ingredientsList = new List<Ingredient>();
+        private List<Ingredient> _ingredientList = new List<Ingredient>();
         private List<MenuItem> _menu = new List<MenuItem>();
 
         public void Run()
         {
             SeedMenu();
-
+            _ingredientList = ingredientManipulator.GetIngredientsList();
+            _menu = menuItemManipulator.GetMenuItems();
             MainMenu();
         }
 
@@ -28,7 +29,7 @@ namespace GoldBadgeConsoleChallengeConsole
         MainMenu:
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine("Welcome! What would you like to do?\n" +
+            Console.WriteLine("Welcome! What would you like to do?\n\n" +
                 "1. Create an ingredient or meal\n" +
                 "2. View all ingredients or meals\n" +
                 "3. Edit an ingredient or meal\n" +
@@ -484,7 +485,41 @@ namespace GoldBadgeConsoleChallengeConsole
             var allIngredients = ingredientManipulator.GetIngredientsList();
             foreach(var ingredient in allIngredients)
             {
-                Console.WriteLine($"• {ingredient.IngredientName}: {ingredient.StockLevel} currently in stock");
+                if(ingredient.IngredientType == IngredientCategory.Bread)
+                {
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine($"* {ingredient.IngredientName}: {ingredient.StockLevel} currently in stock\n");
+                }
+                else if (ingredient.IngredientType == IngredientCategory.Cheese)
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkYellow;
+                    Console.WriteLine($"* {ingredient.IngredientName}: {ingredient.StockLevel} currently in stock\n");
+                }
+                else if (ingredient.IngredientType == IngredientCategory.Filling)
+                {
+                    Console.ForegroundColor = ConsoleColor.Magenta;
+                    Console.WriteLine($"* {ingredient.IngredientName}: {ingredient.StockLevel} currently in stock\n");
+                }
+                else if (ingredient.IngredientType == IngredientCategory.Protein)
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    Console.WriteLine($"* {ingredient.IngredientName}: {ingredient.StockLevel} currently in stock\n");
+                }
+                else if (ingredient.IngredientType == IngredientCategory.Sauce)
+                {
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.WriteLine($"* {ingredient.IngredientName}: {ingredient.StockLevel} currently in stock\n");
+                }
+                else if (ingredient.IngredientType == IngredientCategory.Side)
+                {
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                    Console.WriteLine($"* {ingredient.IngredientName}: {ingredient.StockLevel} currently in stock\n");
+                }
+                else if (ingredient.IngredientType == IngredientCategory.Vegetable)
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkGreen;
+                    Console.WriteLine($"* {ingredient.IngredientName}: {ingredient.StockLevel} currently in stock\n");
+                }
             }
         }
 
@@ -495,7 +530,8 @@ namespace GoldBadgeConsoleChallengeConsole
             var allMenuItems = menuItemManipulator.GetMenuItems();
             foreach(var item in allMenuItems)
             {
-                Console.WriteLine($"#{item.MealNumber}. {item.MealName}     ${item.MealPrice}");
+                Console.WriteLine($"#{item.MealNumber}. {item.MealName}\n" +
+                    $"    ${item.MealPrice}\n");
             }
         }
 
