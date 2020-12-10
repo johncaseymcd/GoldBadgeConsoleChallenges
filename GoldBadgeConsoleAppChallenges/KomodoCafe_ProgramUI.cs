@@ -7,7 +7,7 @@ using GoldBadgeConsoleChallengeClasses;
 
 namespace GoldBadgeConsoleChallengeConsole
 {
-    class ProgramUI
+    class KomodoCafeProgramUI
     {
         IngredientCRUD ingredientManipulator = new IngredientCRUD();
         MenuItemCRUD menuItemManipulator = new MenuItemCRUD();

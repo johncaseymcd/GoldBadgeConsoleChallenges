@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace GoldBadgeConsoleChallengeConsole
 {
-    class Program
+    class KomodoCafeProgram
     {
         static void Main(string[] args)
         {
-            var program = new ProgramUI();
+            var program = new KomodoCafeProgramUI();
             program.Run();
         }
     }
