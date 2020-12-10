@@ -543,15 +543,17 @@ namespace GoldBadgeConsoleChallengeConsole
             if (ingredientToEdit != null)
             {
                 var newIngredient = CreateIngredient();
-                ingredientToEdit.IngredientName = newIngredient.IngredientName;
-                ingredientToEdit.IngredientPrice = newIngredient.IngredientPrice;
-                ingredientToEdit.IsAddOn = newIngredient.IsAddOn;
-                ingredientToEdit.IsDairyFree = newIngredient.IsDairyFree;
-                ingredientToEdit.IsGlutenFree = newIngredient.IsGlutenFree;
-                ingredientToEdit.IsVegan = newIngredient.IsVegan;
-                ingredientToEdit.StockLevel = newIngredient.StockLevel;
-                ingredientManipulator.RemoveIngredientFromList(newIngredient.IngredientName);
-                _ingredientList.Add(ingredientToEdit);
+                bool wasEdited = ingredientManipulator.EditIngredientInList(ingredientName, newIngredient);
+                if (wasEdited)
+                {
+                    Console.WriteLine("Ingredient successfully edited!");
+                    Console.ReadKey();
+                }
+                else
+                {
+                    Console.WriteLine("Could not edit ingredient. Please try again.");
+                    Console.ReadKey();
+                }
             }
             else
             {
@@ -568,13 +570,17 @@ namespace GoldBadgeConsoleChallengeConsole
             if (mealToEdit != null)
             {
                 var newMeal = CreateMenuItem();
-                mealToEdit.MealNumber = newMeal.MealNumber;
-                mealToEdit.MealName = newMeal.MealName;
-                mealToEdit.MealDescription = newMeal.MealDescription;
-                mealToEdit.IngredientsList = newMeal.IngredientsList;
-                mealToEdit.MealPrice = newMeal.MealPrice;
-                menuItemManipulator.RemoveFromMenu(newMeal.MealNumber);
-                _menu.Add(mealToEdit);
+                bool wasEdited = menuItemManipulator.EditMenuItem(menuItemNumber, newMeal);
+                if (wasEdited)
+                {
+                    Console.WriteLine("Meal successfully edited!");
+                    Console.ReadKey();
+                }
+                else
+                {
+                    Console.WriteLine("Could not edit meal. Please try again.");
+                    Console.ReadKey();
+                }
             }
             else
             {
