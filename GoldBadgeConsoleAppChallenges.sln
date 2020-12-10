@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30717.126
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoldBadgeConsoleChallengeConsole", "GoldBadgeConsoleAppChallenges\GoldBadgeConsoleChallengeConsole.csproj", "{7A57F511-D5FE-4989-A674-0546B35BEEAA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoldBadgeConsoleChallengeConsole_Cafe", "GoldBadgeConsoleAppChallenges\GoldBadgeConsoleChallengeConsole_Cafe.csproj", "{7A57F511-D5FE-4989-A674-0546B35BEEAA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoldBadgeConsoleChallengeTests", "GoldBadgeConsoleAppTests\GoldBadgeConsoleChallengeTests.csproj", "{EAD23C87-559B-4956-9C3F-4CE6850A3687}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoldBadgeConsoleChallengeClasses", "GoldBadgeConsoleAppClasses\GoldBadgeConsoleChallengeClasses.csproj", "{ECDDB4A8-34D5-414D-915F-6281F3564321}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoldBadgeConsoleChallengeConsole_Claim", "GoldBadgeConsoleChallengeClaimConsole\GoldBadgeConsoleChallengeConsole_Claim.csproj", "{BEABA2F8-AF77-4ADB-A5FC-67893D4784AD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{ECDDB4A8-34D5-414D-915F-6281F3564321}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ECDDB4A8-34D5-414D-915F-6281F3564321}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ECDDB4A8-34D5-414D-915F-6281F3564321}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BEABA2F8-AF77-4ADB-A5FC-67893D4784AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BEABA2F8-AF77-4ADB-A5FC-67893D4784AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BEABA2F8-AF77-4ADB-A5FC-67893D4784AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BEABA2F8-AF77-4ADB-A5FC-67893D4784AD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

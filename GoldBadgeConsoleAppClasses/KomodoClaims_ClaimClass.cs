@@ -8,8 +8,8 @@ namespace GoldBadgeConsoleAppClasses
 {
     public enum ClaimType
     {
-        Car,
-        Home, 
+        Car = 1,
+        Home,
         Theft
     }
 
@@ -22,9 +22,10 @@ namespace GoldBadgeConsoleAppClasses
         public DateTime LossDate { get; set; }
         public DateTime ClaimDate { get; set; }
         public bool IsValid { get; set; }
+        public bool IsApproved { get; set; }
 
         public Claim() { }
-        public Claim(int claimID, ClaimType claimType, string claimDescription, decimal claimAmount, DateTime lossDate, DateTime claimDate, bool isValid)
+        public Claim(int claimID, ClaimType claimType, string claimDescription, decimal claimAmount, DateTime lossDate, DateTime claimDate, bool isValid, bool isApproved)
         {
             ClaimID = claimID;
             ClaimType = claimType;
@@ -33,6 +34,7 @@ namespace GoldBadgeConsoleAppClasses
             LossDate = lossDate;
             ClaimDate = claimDate;
             IsValid = isValid;
+            IsApproved = isApproved;
         }
     }
 
@@ -78,6 +80,7 @@ namespace GoldBadgeConsoleAppClasses
                 editClaim.LossDate = newClaim.LossDate;
                 editClaim.ClaimDate = newClaim.ClaimDate;
                 editClaim.IsValid = newClaim.IsValid;
+                editClaim.IsApproved = newClaim.IsApproved;
                 return true;
             }
             else
