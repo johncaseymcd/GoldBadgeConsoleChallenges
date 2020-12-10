@@ -29,8 +29,8 @@ namespace GoldBadgeConsoleChallengeClasses
     {
         private List<MenuItem> _menu= new List<MenuItem>();
 
-        // Helper method to find a menu item by name
-        private MenuItem FindMenuItemByName(int menuItemNumber)
+        // Helper method to find a menu item by number
+        public MenuItem FindMenuItemByNumber(int menuItemNumber)
         {
             foreach(var item in _menu)
             {
@@ -58,7 +58,7 @@ namespace GoldBadgeConsoleChallengeClasses
         // Edit an existing menu item
         public bool EditMenuItem(int editItemNumber, MenuItem newMenuItem)
         {
-            var editMenuItem = FindMenuItemByName(editItemNumber);
+            var editMenuItem = FindMenuItemByNumber(editItemNumber);
 
             if (editMenuItem != null)
             {
@@ -78,7 +78,7 @@ namespace GoldBadgeConsoleChallengeClasses
         // Delete an existing menu item
         public bool RemoveFromMenu(int mealNumber)
         {
-            var deleteMenuItem = FindMenuItemByName(mealNumber);
+            var deleteMenuItem = FindMenuItemByNumber(mealNumber);
 
             if (deleteMenuItem == null)
             {

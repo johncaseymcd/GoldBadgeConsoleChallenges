@@ -93,6 +93,7 @@ namespace GoldBadgeConsoleChallengeConsole
                         if (editWhich == "i")
                         {
                             ViewAllIngredients();
+                            Console.ForegroundColor = ConsoleColor.DarkYellow;
                             Console.WriteLine("Enter the name of the ingredient to edit:");
                             string whichIngredientToEdit = Console.ReadLine();
                             EditIngredient(whichIngredientToEdit);
@@ -101,6 +102,7 @@ namespace GoldBadgeConsoleChallengeConsole
                         else if (editWhich == "m")
                         {
                             ViewAllMenuItems();
+                            Console.ForegroundColor = ConsoleColor.DarkYellow;
                             Console.WriteLine("Enter the meal number to edit:");
                             string inputMealToEdit = Console.ReadLine();
                             bool parseMealToEdit = int.TryParse(inputMealToEdit, out int whichMealToEdit);
@@ -128,6 +130,7 @@ namespace GoldBadgeConsoleChallengeConsole
                         if (deleteWhich == "i")
                         {
                             ViewAllIngredients();
+                            Console.ForegroundColor = ConsoleColor.DarkRed;
                             Console.WriteLine("Enter the name of the ingredient to delete:");
                             string whichIngredientToDelete = Console.ReadLine();
                             DeleteIngredient(whichIngredientToDelete);
@@ -137,6 +140,7 @@ namespace GoldBadgeConsoleChallengeConsole
                         {
                             ViewAllMenuItems();
                             Console.WriteLine("Enter the meal number to delete:");
+                            Console.ForegroundColor = ConsoleColor.DarkRed;
                             string inputMealToDelete = Console.ReadLine();
                             bool parseMealToDelete = int.TryParse(inputMealToDelete, out int whichMealToDelete);
                             if (parseMealToDelete)
@@ -380,22 +384,6 @@ namespace GoldBadgeConsoleChallengeConsole
             Console.WriteLine("What is the meal number?");
             string inputItemNumber = Console.ReadLine();
             bool parseItemNumber = int.TryParse(inputItemNumber, out int itemNumber);
-            foreach(var menuItem in _menu)
-            {
-                if (itemNumber == menuItem.MealNumber)
-                {
-                    Console.WriteLine($"There is already a meal #{itemNumber}. Would you like to replace this meal (y/n)?");
-                    string replace = Console.ReadLine();
-                    if (replace == "y")
-                    {
-                        EditMenuItem(itemNumber);
-                    }
-                    else
-                    {
-                        goto SetItemNumber;
-                    }
-                }
-            }
             if (parseItemNumber)
             {
                 newMenuItem.MealNumber = itemNumber;
@@ -551,24 +539,24 @@ namespace GoldBadgeConsoleChallengeConsole
         private void EditIngredient(string ingredientName)
         {
             Console.Clear();
-            var allIngredients = ingredientManipulator.GetIngredientsList();
-            foreach(var ingredient in allIngredients)
+            var ingredientToEdit = ingredientManipulator.FindIngredientByName(ingredientName);
+            if (ingredientToEdit != null)
             {
-                if (ingredientName.ToLower() == ingredient.IngredientName.ToLower())
-                {
-                    var newIngredient = CreateIngredient();
-                    bool wasEdited = ingredientManipulator.EditIngredientInList(ingredientName, newIngredient);
-                    if (wasEdited)
-                    {
-                        Console.WriteLine("Ingredient successfully updated!");
-                        Console.ReadKey();
-                    }
-                    else
-                    {
-                        Console.WriteLine("Could not update ingredient. Please try again.");
-                        Console.ReadKey();
-                    }
-                }
+                var newIngredient = CreateIngredient();
+                ingredientToEdit.IngredientName = newIngredient.IngredientName;
+                ingredientToEdit.IngredientPrice = newIngredient.IngredientPrice;
+                ingredientToEdit.IsAddOn = newIngredient.IsAddOn;
+                ingredientToEdit.IsDairyFree = newIngredient.IsDairyFree;
+                ingredientToEdit.IsGlutenFree = newIngredient.IsGlutenFree;
+                ingredientToEdit.IsVegan = newIngredient.IsVegan;
+                ingredientToEdit.StockLevel = newIngredient.StockLevel;
+                ingredientManipulator.RemoveIngredientFromList(newIngredient.IngredientName);
+                _ingredientList.Add(ingredientToEdit);
+            }
+            else
+            {
+                Console.WriteLine("Ingredient not found. Please try again.");
+                Console.ReadKey();
             }
         }
 
@@ -576,48 +564,48 @@ namespace GoldBadgeConsoleChallengeConsole
         private void EditMenuItem(int menuItemNumber)
         {
             Console.Clear();
-            var allMenuItems = menuItemManipulator.GetMenuItems();
-            foreach(var meal in allMenuItems)
-                {
-                    if (menuItemNumber == meal.MealNumber)
-                    {
-                        var newMenuItem = CreateMenuItem();
-                        bool wasEdited = menuItemManipulator.EditMenuItem(meal.MealNumber, newMenuItem);
-                        if (wasEdited)
-                        {
-                            Console.WriteLine("Menu item successfully updated!");
-                            Console.ReadKey();
-                        }
-                        else
-                        {
-                            Console.WriteLine("Could not update menu item. Please try again.");
-                            Console.ReadKey();
-                        }
-                    }
-                }
+            var mealToEdit = menuItemManipulator.FindMenuItemByNumber(menuItemNumber);
+            if (mealToEdit != null)
+            {
+                var newMeal = CreateMenuItem();
+                mealToEdit.MealNumber = newMeal.MealNumber;
+                mealToEdit.MealName = newMeal.MealName;
+                mealToEdit.MealDescription = newMeal.MealDescription;
+                mealToEdit.IngredientsList = newMeal.IngredientsList;
+                mealToEdit.MealPrice = newMeal.MealPrice;
+                menuItemManipulator.RemoveFromMenu(newMeal.MealNumber);
+                _menu.Add(mealToEdit);
             }
+            else
+            {
+                Console.WriteLine("Meal not found. Please try again.");
+                Console.ReadKey();
+            }
+        }
 
         // Delete an existing ingredient
         private void DeleteIngredient(string ingredientName)
         {
             Console.Clear();
-            var allIngredients = ingredientManipulator.GetIngredientsList();
-            foreach(var ingredient in allIngredients)
+            var ingredientToDelete = ingredientManipulator.FindIngredientByName(ingredientName);
+            if (ingredientToDelete != null)
             {
-                if (ingredient.IngredientName.ToLower() == ingredientName.ToLower())
+                bool wasDeleted = ingredientManipulator.RemoveIngredientFromList(ingredientToDelete.IngredientName);
+                if (wasDeleted)
                 {
-                    bool wasDeleted = ingredientManipulator.RemoveIngredientFromList(ingredientName);
-                    if (wasDeleted)
-                    {
-                        Console.WriteLine("Ingredient was successfully deleted!");
-                        Console.ReadKey();
-                    }
-                    else
-                    {
-                        Console.WriteLine("Could not delete ingredient. Please try again.");
-                        Console.ReadKey();
-                    }
+                    Console.WriteLine("Ingredient was successfully deleted!");
+                    Console.ReadKey();
                 }
+                else
+                {
+                    Console.WriteLine("Could not delete ingredient. Please try again.");
+                    Console.ReadKey();
+                }
+            }
+            else
+            {
+                Console.WriteLine("Ingredient not found. Please try again.");
+                Console.ReadKey();
             }
         }
 
@@ -625,23 +613,25 @@ namespace GoldBadgeConsoleChallengeConsole
         private void DeleteMenuItem(int menuItemNumber)
         {
             Console.Clear();
-            var allMenuItems = menuItemManipulator.GetMenuItems();
-            foreach(var item in allMenuItems)
+            var mealToDelete = menuItemManipulator.FindMenuItemByNumber(menuItemNumber);
+            if (mealToDelete != null)
             {
-                if (menuItemNumber == item.MealNumber)
+                bool wasDeleted = menuItemManipulator.RemoveFromMenu(mealToDelete.MealNumber);
+                if (wasDeleted)
                 {
-                    bool wasDeleted = menuItemManipulator.RemoveFromMenu(menuItemNumber);
-                    if (wasDeleted)
-                    {
-                        Console.WriteLine("Menu item was successfully deleted!");
-                        Console.ReadKey();
-                    }
-                    else
-                    {
-                        Console.WriteLine("Could not delete menu item. Please try again.");
-                        Console.ReadKey();
-                    }
+                    Console.WriteLine("Meal was successfully deleted!");
+                    Console.ReadKey();
                 }
+                else
+                {
+                    Console.WriteLine("Could not delete meal. Please try again.");
+                    Console.ReadKey();
+                }
+            }
+            else
+            {
+                Console.WriteLine("Meal not found. Please try again.");
+                Console.ReadKey();
             }
         }
 
