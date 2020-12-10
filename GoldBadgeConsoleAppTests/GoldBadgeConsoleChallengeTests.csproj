@@ -52,6 +52,7 @@
     <Compile Include="KomodoCafe_IngredientTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="KomodoCafe_MenuTests.cs" />
+    <Compile Include="KomodoClaims_ClaimTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
