@@ -15,7 +15,7 @@ namespace GoldBadgeConsoleAppTests
             var claimDate = new DateTime(2020, 03, 15);
             var claimExpiration = new TimeSpan(30, 0, 0, 0);
             bool isValid = claimDate <= lossDate + claimExpiration;
-            var claim = new Claim(1, ClaimType.Car, "Fender bender", 3000.00m, lossDate, claimDate, isValid);
+            var claim = new Claim(1, ClaimType.Car, "Fender bender", 3000.00m, lossDate, claimDate, isValid, false);
             var claimTester = new ClaimCRUD();
             int beginningCount = claimTester.GetAllClaims().Count;
 
@@ -35,7 +35,7 @@ namespace GoldBadgeConsoleAppTests
             var claimDate = new DateTime(2019, 09, 09);
             var claimExpiration = new TimeSpan(30, 0, 0, 0);
             bool isValid = claimDate <= lossDate + claimExpiration;
-            var claim = new Claim(1, ClaimType.Home, "House fire", 150000.00m, lossDate, claimDate, isValid);
+            var claim = new Claim(1, ClaimType.Home, "House fire", 150000.00m, lossDate, claimDate, isValid, false);
             var claimTester = new ClaimCRUD();
 
             // Act (Add claim to queue)
@@ -53,7 +53,7 @@ namespace GoldBadgeConsoleAppTests
             var oldClaimDate = new DateTime(2020, 06, 09);
             var oldClaimExpiration = new TimeSpan(30, 0, 0, 0);
             bool oldIsValid = oldClaimDate <= oldLossDate + oldClaimExpiration;
-            var oldClaim = new Claim(1, ClaimType.Home, "Pipe burst", 2000.00m, oldLossDate, oldClaimDate, oldIsValid);
+            var oldClaim = new Claim(1, ClaimType.Home, "Pipe burst", 2000.00m, oldLossDate, oldClaimDate, oldIsValid, false);
             var claimTester = new ClaimCRUD();
             claimTester.CreateClaim(oldClaim);
 
@@ -62,7 +62,7 @@ namespace GoldBadgeConsoleAppTests
             var newClaimDate = new DateTime(2020, 02, 02);
             var newClaimExpiration = new TimeSpan(30, 0, 0, 0);
             bool newIsValid = newClaimDate <= newLossDate + newClaimExpiration;
-            var newClaim = new Claim(2, ClaimType.Car, "Total loss", 35000.00m, newLossDate, newClaimDate, newIsValid);
+            var newClaim = new Claim(2, ClaimType.Car, "Total loss", 35000.00m, newLossDate, newClaimDate, newIsValid, false);
             bool wasEdited = claimTester.EditClaim(oldClaim.ClaimID, newClaim);
 
             // Assert (wasEdited should return a value of true if the edit was successful)
@@ -77,7 +77,7 @@ namespace GoldBadgeConsoleAppTests
             var claimDate = new DateTime(2020, 09, 01);
             var claimExpiration = new TimeSpan(30, 0, 0, 0);
             bool isValid = claimDate <= lossDate + claimExpiration;
-            var claim = new Claim(1, ClaimType.Theft, "Stolen TV and laptop", 2500.00m, lossDate, claimDate, isValid);
+            var claim = new Claim(1, ClaimType.Theft, "Stolen TV and laptop", 2500.00m, lossDate, claimDate, isValid, false);
             var claimTester = new ClaimCRUD();
             claimTester.CreateClaim(claim);
 
