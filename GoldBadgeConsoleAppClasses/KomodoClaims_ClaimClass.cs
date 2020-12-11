@@ -8,7 +8,7 @@ namespace GoldBadgeConsoleAppClasses
 {
     public enum ClaimType
     {
-        Car = 1,
+        Vehicle = 1,
         Home,
         Theft
     }
@@ -34,7 +34,7 @@ namespace GoldBadgeConsoleAppClasses
             LossDate = lossDate;
             ClaimDate = claimDate;
             IsValid = isValid;
-            IsApproved = isApproved;
+            IsApproved = false;
         }
     }
 
@@ -81,6 +81,7 @@ namespace GoldBadgeConsoleAppClasses
                 editClaim.ClaimDate = newClaim.ClaimDate;
                 editClaim.IsValid = newClaim.IsValid;
                 editClaim.IsApproved = newClaim.IsApproved;
+                _allClaims.Enqueue(editClaim);
                 return true;
             }
             else

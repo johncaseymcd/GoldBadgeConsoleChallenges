@@ -26,7 +26,6 @@ namespace GoldBadgeConsoleChallengeConsole
         private void MainMenu()
         {
         MainMenu:
-            
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("Welcome! What would you like to do?\n\n" +
@@ -416,6 +415,8 @@ namespace GoldBadgeConsoleChallengeConsole
                 for (int x = 0; x < howManyIngredients; x++)
                 {
                 EnterIngredientName:
+                    Console.Clear();
+                    ViewAllIngredients();
                     Console.WriteLine("What ingredient would you like to add to the meal?");
                     string ingredientName = Console.ReadLine().ToLower();
                     var ingredientToAdd = ingredientManipulator.FindIngredientByName(ingredientName);
@@ -546,6 +547,7 @@ namespace GoldBadgeConsoleChallengeConsole
                 bool wasEdited = ingredientManipulator.EditIngredientInList(ingredientName, newIngredient);
                 if (wasEdited)
                 {
+                    ingredientManipulator.RemoveIngredientFromList(newIngredient.IngredientName);
                     Console.WriteLine("Ingredient successfully edited!");
                     Console.ReadKey();
                 }
@@ -573,6 +575,7 @@ namespace GoldBadgeConsoleChallengeConsole
                 bool wasEdited = menuItemManipulator.EditMenuItem(menuItemNumber, newMeal);
                 if (wasEdited)
                 {
+                    menuItemManipulator.RemoveFromMenu(newMeal.MealNumber);
                     Console.WriteLine("Meal successfully edited!");
                     Console.ReadKey();
                 }
