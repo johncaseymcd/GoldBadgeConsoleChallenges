@@ -22,10 +22,9 @@ namespace GoldBadgeConsoleAppClasses
         public DateTime LossDate { get; set; }
         public DateTime ClaimDate { get; set; }
         public bool IsValid { get; set; }
-        public bool IsApproved { get; set; }
 
         public Claim() { }
-        public Claim(int claimID, ClaimType claimType, string claimDescription, decimal claimAmount, DateTime lossDate, DateTime claimDate, bool isValid, bool isApproved)
+        public Claim(int claimID, ClaimType claimType, string claimDescription, decimal claimAmount, DateTime lossDate, DateTime claimDate, bool isValid)
         {
             ClaimID = claimID;
             ClaimType = claimType;
@@ -34,7 +33,6 @@ namespace GoldBadgeConsoleAppClasses
             LossDate = lossDate;
             ClaimDate = claimDate;
             IsValid = isValid;
-            IsApproved = false;
         }
     }
 
@@ -65,29 +63,6 @@ namespace GoldBadgeConsoleAppClasses
         public Queue<Claim> GetAllClaims()
         {
             return _allClaims;
-        }
-
-        // Edit an existing claim in the queue
-        public bool EditClaim(int claimID, Claim newClaim)
-        {
-            var editClaim = FindClaimByID(claimID);
-            if (editClaim != null)
-            {
-                editClaim.ClaimID = newClaim.ClaimID;
-                editClaim.ClaimType = newClaim.ClaimType;
-                editClaim.ClaimDescription = newClaim.ClaimDescription;
-                editClaim.ClaimAmount = newClaim.ClaimAmount;
-                editClaim.LossDate = newClaim.LossDate;
-                editClaim.ClaimDate = newClaim.ClaimDate;
-                editClaim.IsValid = newClaim.IsValid;
-                editClaim.IsApproved = newClaim.IsApproved;
-                _allClaims.Enqueue(editClaim);
-                return true;
-            }
-            else
-            {
-                return false;
-            }
         }
 
         // Delete a claim from the queue
