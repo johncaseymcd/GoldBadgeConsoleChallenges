@@ -9,16 +9,29 @@ namespace GoldBadgeConsoleAppClasses
     public class Badge
     {
         public int BadgeID { get; set; }
-        public List<string> BadgeAccess { get; set; }
+        public List<Room> BadgeAccess { get; set; }
         public bool IsActive { get; set; }
 
         public Badge() { }
 
-        public Badge(int badgeID, List<string> badgeAccess, bool isActive)
+        public Badge(List<Room> badgeAccess, bool isActive)
         {
-            BadgeID = badgeID;
             BadgeAccess = badgeAccess;
             IsActive = true;
+        }
+    }
+
+    public class Room
+    {
+        public int Floor { get; set; }
+        public int RoomNumber { get; set; }
+
+        public Room() { }
+
+        public Room(int floor, int roomNumber)
+        {
+            Floor = floor;
+            RoomNumber = roomNumber;
         }
     }
 
@@ -43,8 +56,8 @@ namespace GoldBadgeConsoleAppClasses
         // Activate a new badge
         public void ActivateNewBadge(Badge newBadge)
         {
-            int badgeCount = _allBadges.Count + 10000;
-            _allBadges.Add(badgeCount, newBadge);
+            newBadge.BadgeID = _allBadges.Count + 10000;
+            _allBadges.Add(newBadge.BadgeID, newBadge);
         }
 
         // Get all badges
@@ -84,6 +97,5 @@ namespace GoldBadgeConsoleAppClasses
                 return false;
             }
         }
-
     }
 }

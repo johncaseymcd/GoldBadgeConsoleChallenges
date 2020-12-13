@@ -84,8 +84,7 @@ namespace GoldBadgeConsoleChallengeClaimConsole
             Console.ForegroundColor = ConsoleColor.Green;
             var newClaim = new Claim();
 
-        // Set Claim ID
-        SetClaimID:
+            // Set Claim ID
             newClaim.ClaimID = _claimQueue.Count + 1;
 
         // Select claim type
