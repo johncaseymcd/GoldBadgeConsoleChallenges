@@ -137,7 +137,7 @@ namespace GoldBadgeConsoleChallengeConsole_Badges
         private void DisplayRoomAccess(int badgeID)
         {
             var badge = badgeManipulator.FindBadgeByID(badgeID);
-            if (badge.IsActive)
+            if (badge != null && badge.IsActive)
             {
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine($"Badge #{badge.BadgeID} is active and has access to the following rooms:");
@@ -173,11 +173,30 @@ namespace GoldBadgeConsoleChallengeConsole_Badges
                 }
                 Console.WriteLine("\n");
             }
+            else if(badge != null && !badge.IsActive)
+            {
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+                Console.WriteLine($"Badge #{badge.BadgeID} has been deactivated.\n");
+            }
             else
             {
-                Console.WriteLine($"Badge #{badge.BadgeID} has been deactivated.");
+                PressAnyKey();
+                MainMenu();
             }
-            
+        }
+
+        // Helper method to find a room by room number
+        private Room FindRoomByNumber(int roomNumber)
+        {
+            foreach(var room in _allRooms)
+            {
+                if (room.RoomNumber == roomNumber)
+                {
+                    return room;
+                }
+            }
+
+            return null;
         }
 
         private void ActivateBadge()
@@ -218,7 +237,16 @@ namespace GoldBadgeConsoleChallengeConsole_Badges
                 }
                 else if (parseRoomNumber && inputRoomNumber.Length == 3)
                 {
-                    newBadgeAccess.Add(new Room(int.Parse(whichRoom.ToString().Substring(0, 1)), whichRoom));
+                    var roomToAdd = FindRoomByNumber(whichRoom);
+                    if (roomToAdd != null)
+                    {
+                        newBadgeAccess.Add(roomToAdd);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Room does not exist. Please try again.");
+                        goto EnterRoomAccess;
+                    }
                 }
                 else if (!parseRoomNumber && inputRoomNumber != "f")
                 {
@@ -251,33 +279,40 @@ namespace GoldBadgeConsoleChallengeConsole_Badges
             bool parseBadgeID = int.TryParse(inputBadgeID, out int editBadgeID);
             if (parseBadgeID)
             {
-                Console.Clear();
                 var badgeToEdit = badgeManipulator.FindBadgeByID(editBadgeID);
+                Console.Clear();
                 DisplayRoomAccess(editBadgeID);
                 string inputOption;
                 do
                 {
+                AddOrRemoveRooms:
                     Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.WriteLine("Enter A + Room Number (i.e. A240) to add access, enter R + Room Number (i.e. R460) to revoke access, or press F to finish:");
                     inputOption = Console.ReadLine().ToLower();
                     if (inputOption.StartsWith("a") & inputOption.Length == 4)
                     {
-                        foreach (var room in _allRooms)
+                        var roomToAdd = FindRoomByNumber(int.Parse(inputOption.Remove(0, 1)));
+                        if (!badgeToEdit.BadgeAccess.Contains(roomToAdd))
                         {
-                            if (int.Parse(inputOption.Remove(0, 1)) == room.RoomNumber && !badgeToEdit.BadgeAccess.Contains(room))
-                            {
-                                badgeToEdit.BadgeAccess.Add(room);
-                            }
+                            badgeToEdit.BadgeAccess.Add(roomToAdd);
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Badge #{badgeToEdit.BadgeID} already has access to Room {roomToAdd.RoomNumber}.\n");
+                            goto AddOrRemoveRooms;
                         }
                     }
                     else if (inputOption.StartsWith("r") && inputOption.Length == 4)
                     {
-                        foreach (var room in _allRooms)
+                        var roomToRemove = FindRoomByNumber(int.Parse(inputOption.Remove(0, 1)));
+                        if (badgeToEdit.BadgeAccess.Contains(roomToRemove))
                         {
-                            if (int.Parse(inputOption.Remove(0, 1)) == room.RoomNumber && badgeToEdit.BadgeAccess.Contains(room))
-                            {
-                                badgeToEdit.BadgeAccess.Remove(room);
-                            }
+                            badgeToEdit.BadgeAccess.Remove(roomToRemove);
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Badge #{badgeToEdit.BadgeID} currently does not have access to Room {roomToRemove.RoomNumber}.\n");
+                            goto AddOrRemoveRooms;
                         }
                     }
                 } while (inputOption != "f");
@@ -291,7 +326,42 @@ namespace GoldBadgeConsoleChallengeConsole_Badges
 
         private void DeactivateBadge()
         {
-
+            Console.Clear();
+            ViewBadges();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Enter the badge ID to deactivate:");
+            string firstInput = Console.ReadLine();
+            Console.WriteLine("Confirm the badge ID to deactivate:");
+            string secondInput = Console.ReadLine();
+            if (secondInput == firstInput)
+            {
+                bool parseBadgeID = int.TryParse(secondInput, out int badgeID);
+                if (parseBadgeID)
+                {
+                    var badgeToDeactivate = badgeManipulator.FindBadgeByID(badgeID);
+                    if (badgeToDeactivate != null)
+                    {
+                        badgeToDeactivate.IsActive = false;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Badge not found with that ID. Please try again.");
+                        DeactivateBadge();
+                    }
+                }
+                else
+                {
+                    PressAnyKey();
+                    MainMenu();
+                }
+            }
+            else
+            {
+                Console.WriteLine("Badge IDs do not match. Program will exit.");
+                Console.ReadKey();
+                Environment.Exit(0);
+            }
+            
         }
 
         private void SeedBadgeList()
