@@ -23,14 +23,14 @@ namespace GoldBadgeConsoleAppTests
                 new Room(2, 270),
                 new Room(3, 300)
             };
-            Badge testBadge1 = new Badge(testBadgeAccess1, true);
+            Badge testBadge1 = new Badge(testBadgeAccess1);
             int beginningCount = 0;
 
             // Act (add new badge)
             badgeTester.ActivateNewBadge(testBadge1);
 
             // Assert (count of Dictionary should be > 0)
-            int endingCount = badgeTester.ViewAllBadges().Count;
+            int endingCount = badgeTester.GetAllBadges().Count;
             Assert.IsTrue(endingCount > beginningCount, "Activation failed.");
         }
 
@@ -47,13 +47,13 @@ namespace GoldBadgeConsoleAppTests
                 new Room(2, 270),
                 new Room(3, 300)
             };
-            Badge testBadge1 = new Badge(testBadgeAccess1, true);
+            Badge testBadge1 = new Badge(testBadgeAccess1);
 
             // Act (add badge to dictionary)
             badgeTester.ActivateNewBadge(testBadge1);
 
             // Assert (that the dictionary of badges is not empty)
-            Assert.IsNotNull(badgeTester.ViewAllBadges(), "View failed.");
+            Assert.IsNotNull(badgeTester.GetAllBadges(), "View failed.");
 
         }
 
@@ -70,7 +70,7 @@ namespace GoldBadgeConsoleAppTests
                 new Room(2, 270),
                 new Room(3, 300)
             };
-            Badge testBadge1 = new Badge(testBadgeAccess1, true);
+            Badge testBadge1 = new Badge(testBadgeAccess1);
             badgeTester.ActivateNewBadge(testBadge1);
 
             List<Room> testBadgeAccess2 = new List<Room>()
@@ -81,7 +81,7 @@ namespace GoldBadgeConsoleAppTests
                 new Room(2, 250),
                 new Room(2, 290)
             };
-            Badge testBadge2 = new Badge(testBadgeAccess2, true);
+            Badge testBadge2 = new Badge(testBadgeAccess2);
 
             bool wasEdited = false;
 
@@ -105,7 +105,7 @@ namespace GoldBadgeConsoleAppTests
                 new Room(2, 270),
                 new Room(3, 300)
             };
-            Badge testBadge1 = new Badge(testBadgeAccess1, true);
+            Badge testBadge1 = new Badge(testBadgeAccess1);
             badgeTester.ActivateNewBadge(testBadge1);
 
             // Act (deactivate badge)

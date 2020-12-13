@@ -14,7 +14,7 @@ namespace GoldBadgeConsoleAppClasses
 
         public Badge() { }
 
-        public Badge(List<Room> badgeAccess, bool isActive)
+        public Badge(List<Room> badgeAccess)
         {
             BadgeAccess = badgeAccess;
             IsActive = true;
@@ -40,7 +40,7 @@ namespace GoldBadgeConsoleAppClasses
         private Dictionary<int, Badge> _allBadges = new Dictionary<int, Badge>();
 
         // Helper method to find badge by ID
-        private Badge FindBadgeByID(int badgeID)
+        public Badge FindBadgeByID(int badgeID)
         {
             foreach(var badge in _allBadges)
             {
@@ -61,7 +61,7 @@ namespace GoldBadgeConsoleAppClasses
         }
 
         // Get all badges
-        public Dictionary<int, Badge> ViewAllBadges()
+        public Dictionary<int, Badge> GetAllBadges()
         {
             return _allBadges;
         }
