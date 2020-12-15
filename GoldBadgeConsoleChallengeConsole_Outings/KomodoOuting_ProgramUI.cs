@@ -25,8 +25,8 @@ namespace GoldBadgeConsoleChallengeConsole_Outings
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("Welcome! What would you like to do?\n\n" +
-                "1. View all outings by date\n" +
-                "2. Add a new outing to the list\n" +
+                "1. Add a new outing to the list\n" +
+                "2. View all company outings\n" +
                 "3. View cost for all outings by year\n" +
                 "4. View cost for all outings by type\n" +
                 "5. Exit");
@@ -37,17 +37,19 @@ namespace GoldBadgeConsoleChallengeConsole_Outings
                 switch (whatToDo)
                 {
                     case 1:
+                        AddNewOuting();
+                        goto MainMenu;
+                    case 2:
                         ViewOutingsByDate();
                         Console.ReadKey();
                         goto MainMenu;
-                    case 2:
-                        AddNewOuting();
-                        goto MainMenu;
                     case 3:
                         ViewCostByYear();
+                        Console.ReadKey();
                         goto MainMenu;
                     case 4:
                         ViewCostByType();
+                        Console.ReadKey();
                         goto MainMenu;
                     case 5:
                         Console.WriteLine("Press any key to exit or press H to return home.");
@@ -149,15 +151,57 @@ namespace GoldBadgeConsoleChallengeConsole_Outings
         {
             _allOutings = outingManipulator.GetAllOutings();
             Console.Clear();
+            decimal totalCostForAll = 0.00m;
             Console.WriteLine("{0} \t{1} \t{2} \t{3} \t{4}\n", "Date".PadRight(15), "Type".PadRight(15), "Cost per Person".PadRight(15), "Attendance".PadRight(15), "Total Cost".PadRight(15));
             foreach(var outing in _allOutings)
             {
+                totalCostForAll += outing.Value.TotalCost;
                 Console.WriteLine($"{outing.Key.ToShortDateString().PadRight(15)} \t{outing.Value.Type.ToString().Replace('_', ' ').PadRight(15)} \t{string.Format("{0:C}", outing.Value.CostPerPerson).PadRight(15)} \t{outing.Value.Attendance.ToString().PadRight(15)} \t{string.Format("{0:C}", outing.Value.TotalCost).PadRight(15)}");
             }
+            decimal budget = totalCostForAll / _allOutings.Count;
+            if (budget < 4000)
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+            }
+            Console.WriteLine($"\n" +
+                $"The total cost of all outings is: {string.Format("{0:C}", totalCostForAll)}");
         }
 
         private void ViewCostByYear()
         {
+            Console.Clear();
+            _allOutings = outingManipulator.GetAllOutings();
+            Console.WriteLine("Which year would you like to view?");
+            string inputYear = Console.ReadLine();
+            bool parseYear = int.TryParse(inputYear, out int year);
+            Console.Clear();
+            Console.WriteLine("{0} \t{1} \t{2} \t{3} \t{4}\n", "Date".PadRight(15), "Type".PadRight(15), "Cost per Person".PadRight(15), "Attendance".PadRight(15), "Total Cost".PadRight(15));
+            decimal totalCostForYear = 0.00m;
+            int outingCounter = 0;
+            foreach (var outing in _allOutings)
+            {
+                if (year == outing.Key.Year)
+                {
+                    totalCostForYear += outing.Value.TotalCost;
+                    outingCounter++;
+                    Console.WriteLine($"{outing.Key.Month.ToString()}/{outing.Key.Day.ToString().PadRight(15 - outing.Key.Month.ToString().Length + 1)} \t{outing.Value.Type.ToString().Replace('_', ' ').PadRight(15)} \t{string.Format("{0:C}", outing.Value.CostPerPerson).PadRight(15)} \t{outing.Value.Attendance.ToString().PadRight(15)} \t{string.Format("{0:C}", outing.Value.TotalCost).PadRight(15)}");
+                }
+            }
+            decimal budget = totalCostForYear / outingCounter;
+            if (budget < 4000)
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+            }
+            Console.WriteLine(" \n" +
+                "Total cost for {0}: {1}", year, string.Format("{0:C}", totalCostForYear));
 
         }
 
@@ -171,7 +215,7 @@ namespace GoldBadgeConsoleChallengeConsole_Outings
             var newYearsOuting = new Outing(new DateTime(2020, 01, 01, 00, 00, 00), OutingType.Bowling, 53);
             outingManipulator.CreateNewOuting(newYearsOuting);
 
-            var valentinesOuting = new Outing(new DateTime(2019, 02, 14, 19, 00, 00), OutingType.Concert, 37);
+            var valentinesOuting = new Outing(new DateTime(2019, 02, 14, 19, 00, 00), OutingType.Concert, 47);
             outingManipulator.CreateNewOuting(valentinesOuting);
 
             var springOuting = new Outing(new DateTime(2019, 03, 15, 18, 00, 00), OutingType.Golf, 41);
