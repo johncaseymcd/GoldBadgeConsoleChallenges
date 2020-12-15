@@ -173,8 +173,9 @@ namespace GoldBadgeConsoleChallengeConsole_Outings
 
         private void ViewCostByYear()
         {
-            Console.Clear();
             _allOutings = outingManipulator.GetAllOutings();
+        EnterYear:
+            Console.Clear();
             Console.WriteLine("Which year would you like to view?");
             string inputYear = Console.ReadLine();
             bool parseYear = int.TryParse(inputYear, out int year);
@@ -191,7 +192,17 @@ namespace GoldBadgeConsoleChallengeConsole_Outings
                     Console.WriteLine($"{outing.Key.Month.ToString()}/{outing.Key.Day.ToString().PadRight(15 - outing.Key.Month.ToString().Length + 1)} \t{outing.Value.Type.ToString().Replace('_', ' ').PadRight(15)} \t{string.Format("{0:C}", outing.Value.CostPerPerson).PadRight(15)} \t{outing.Value.Attendance.ToString().PadRight(15)} \t{string.Format("{0:C}", outing.Value.TotalCost).PadRight(15)}");
                 }
             }
-            decimal budget = totalCostForYear / outingCounter;
+            decimal budget = 0.00m;
+            if (outingCounter != 0)
+            {
+                budget = totalCostForYear / outingCounter;
+            }
+            else
+            {
+                Console.Clear();
+                PressAnyKey();
+                goto EnterYear;
+            }
             if (budget < 4000)
             {
                 Console.ForegroundColor = ConsoleColor.Green;
@@ -207,7 +218,69 @@ namespace GoldBadgeConsoleChallengeConsole_Outings
 
         private void ViewCostByType()
         {
-
+            _allOutings = outingManipulator.GetAllOutings();
+        EnterType:
+            Console.Clear();
+            Console.WriteLine("Which type of outing would you like to view?\n");
+            int typeCounter = 0;
+            foreach(var type in Enum.GetValues(typeof(OutingType)))
+            {
+                typeCounter++;
+                Console.WriteLine($"{typeCounter}. {type.ToString().Replace('_', ' ')}");
+            }
+            string inputType = Console.ReadLine();
+            bool parseType = int.TryParse(inputType, out int whichType);
+            var outingType = new OutingType();
+            if (parseType)
+            {
+                switch (whichType)
+                {
+                    case 1:
+                        outingType = OutingType.Amusement_Park;
+                        break;
+                    case 2:
+                        outingType = OutingType.Bowling;
+                        break;
+                    case 3:
+                        outingType = OutingType.Concert;
+                        break;
+                    case 4:
+                        outingType = OutingType.Golf;
+                        break;
+                    default:
+                        PressAnyKey();
+                        goto EnterType;
+                }
+            }
+            else
+            {
+                PressAnyKey();
+                goto EnterType;
+            }
+            Console.Clear();
+            Console.WriteLine("{0} \t{1} \t{2} \t{3} \t{4}\n", "Date".PadRight(15), "Type".PadRight(15), "Cost per Person".PadRight(15), "Attendance".PadRight(15), "Total Cost".PadRight(15));
+            decimal totalCostForType = 0.00m;
+            int outingCounter = 0;
+            foreach(var outing in _allOutings)
+            {
+                if (outing.Value.Type == outingType)
+                {
+                    totalCostForType += outing.Value.TotalCost;
+                    outingCounter++;
+                    Console.WriteLine($"{outing.Key.ToShortDateString().PadRight(15)} \t{outing.Value.Type.ToString().Replace('_', ' ').PadRight(15)} \t{string.Format("{0:C}", outing.Value.CostPerPerson).PadRight(15)} \t{outing.Value.Attendance.ToString().PadRight(15)} \t{string.Format("{0:C}", outing.Value.TotalCost).PadRight(15)}");
+                }
+            }
+            decimal budgetForType = totalCostForType / outingCounter;
+            if (budgetForType < 4000)
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+            }
+            Console.WriteLine($"\n" +
+                $"The total cost for all {outingType.ToString().Replace('_', ' ')} outings is: {string.Format("{0:C}", totalCostForType)}");
         }
 
         private void SeedOutingsList()
