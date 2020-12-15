@@ -54,6 +54,7 @@
     <Compile Include="KomodoCafe_MenuTests.cs" />
     <Compile Include="KomodoClaims_ClaimTest.cs" />
     <Compile Include="KomodoBadges_BadgeTest.cs" />
+    <Compile Include="KomodoOuting_OutingTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoldBadgeConsoleChallengeCo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoldBadgeConsoleChallengeConsole_Badges", "GoldBadgeConsoleChallengeConsole_Badges\GoldBadgeConsoleChallengeConsole_Badges.csproj", "{841169EF-FAA0-47F3-BB68-BD66A363B707}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoldBadgeConsoleChallengeConsole_Outings", "GoldBadgeConsoleChallengeConsole_Outings\GoldBadgeConsoleChallengeConsole_Outings.csproj", "{11AEC20C-F30C-4078-8521-5BA4B6503911}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{841169EF-FAA0-47F3-BB68-BD66A363B707}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{841169EF-FAA0-47F3-BB68-BD66A363B707}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{841169EF-FAA0-47F3-BB68-BD66A363B707}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11AEC20C-F30C-4078-8521-5BA4B6503911}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11AEC20C-F30C-4078-8521-5BA4B6503911}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11AEC20C-F30C-4078-8521-5BA4B6503911}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11AEC20C-F30C-4078-8521-5BA4B6503911}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
