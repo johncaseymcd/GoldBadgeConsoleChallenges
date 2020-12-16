@@ -72,15 +72,15 @@ namespace GoldBadgeConsoleAppClasses
         }
 
         // Update
-        public bool EditExistingCustomer(Customer oldCustomer)
+        public bool EditExistingCustomer(Customer oldCustomer, Customer newCustomer)
         {
             var editCustomer = FindCustomerByName(oldCustomer.LastName, oldCustomer.FirstName);
             if (editCustomer != null)
             {
-                editCustomer.FirstName = oldCustomer.FirstName;
-                editCustomer.LastName = oldCustomer.LastName;
-                editCustomer.Type = oldCustomer.Type;
-                editCustomer.EmailToSend = oldCustomer.EmailToSend;
+                editCustomer.FirstName = newCustomer.FirstName;
+                editCustomer.LastName = newCustomer.LastName;
+                editCustomer.Type = newCustomer.Type;
+                editCustomer.EmailToSend = newCustomer.EmailToSend;
                 return true;
             }
             else

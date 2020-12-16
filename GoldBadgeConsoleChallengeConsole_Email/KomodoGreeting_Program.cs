@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 
 namespace GoldBadgeConsoleChallengeConsole_Email
 {
-    class Program
+    class KomodoGreeting_Program
     {
         static void Main(string[] args)
         {
+            var program = new KomodoGreetingProgramUI();
+            program.Run();
         }
     }
 }
