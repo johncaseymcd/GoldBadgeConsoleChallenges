@@ -48,7 +48,7 @@ namespace GoldBadgeConsoleAppClasses
         {
             foreach (var customer in _customerList)
             {
-                if (customer.LastName == lastName && customer.FirstName == firstName)
+                if (customer.LastName.ToLower() == lastName.ToLower() && customer.FirstName.ToLower() == firstName.ToLower())
                 {
                     return customer;
                 }
@@ -88,12 +88,12 @@ namespace GoldBadgeConsoleAppClasses
         }
 
         // Delete
-        public bool DeleteCustomer(Customer oldCustomer)
+        public bool DeleteCustomer(string firstName, string lastName)
         {
-            var deleteCustomer = FindCustomerByName(oldCustomer.LastName, oldCustomer.FirstName);
+            var deleteCustomer = FindCustomerByName(lastName, firstName);
             if (deleteCustomer != null)
             {
-                _customerList.Remove(oldCustomer);
+                _customerList.Remove(deleteCustomer);
                 return true;
             }
             else

@@ -50,7 +50,7 @@ namespace GoldBadgeConsoleAppTests
             customerTester.CreateCustomer(newCustomer);
 
             // Act (remove newCustomer from the field of customers)
-            wasDeleted = customerTester.DeleteCustomer(newCustomer);
+            wasDeleted = customerTester.DeleteCustomer(newCustomer.FirstName, newCustomer.LastName);
 
             // Assert (that the Delete method returns true, and that the field of customers is empty)
             Assert.IsTrue(wasDeleted, "Delete failed.");

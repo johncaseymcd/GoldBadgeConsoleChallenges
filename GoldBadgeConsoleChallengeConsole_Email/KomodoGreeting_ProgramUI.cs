@@ -84,14 +84,14 @@ namespace GoldBadgeConsoleChallengeConsole_Email
         private Customer EnterCustomerDetails()
         {
             Console.Clear();
-            Console.WriteLine("Enter the customer's first and last name:\n");
-            string fullName = Console.ReadLine();
-            string firstName = fullName.Split(' ').ElementAt<string>(0);
-            string lastName = fullName.Split(' ').ElementAt<string>(1);
+            Console.WriteLine("Enter the new customer's first and last name:\n");
+            string[] fullName = Console.ReadLine().Split(' ');
+            string firstName = fullName.ElementAt<string>(0);
+            string lastName = fullName.ElementAt<string>(1);
 
         EnterDate:
             Console.Clear();
-            Console.WriteLine($"Has {fullName} had a policy with us before (y/n)?\n");
+            Console.WriteLine($"Has {firstName} {lastName} had a policy with us before (y/n)?\n");
             string inputPriorPolicy = Console.ReadLine().ToLower();
             var type = new CustomerType();
             if (inputPriorPolicy == "y")
@@ -135,6 +135,7 @@ namespace GoldBadgeConsoleChallengeConsole_Email
             Console.Clear();
             _allCustomers = customerManipulator.GetAllCustomers();
             var sorter = _allCustomers.OrderBy(x => x.LastName).ThenBy(x => x.FirstName);
+            Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("{0} \t{1} \t{2} \t{3}\n", "First Name".PadRight(10), "Last Name".PadRight(10), "Type".PadRight(10), "Email Template");
             foreach(var customer in sorter)
             {
@@ -156,12 +157,69 @@ namespace GoldBadgeConsoleChallengeConsole_Email
 
         private void EditCustomer()
         {
-            
+            _allCustomers = customerManipulator.GetAllCustomers();
+        EnterName:
+            Console.Clear();
+            ViewAllCustomers();
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("\n" +
+                "Enter the first and last name of the customer you wish to edit:\n");
+            string[] fullName = Console.ReadLine().Split(' ');
+            string firstName = fullName.ElementAt<string>(0);
+            string lastName = fullName.ElementAt<string>(1);
+            bool wasEdited = false;
+            foreach(var customer in _allCustomers)
+            {
+                if (customer.FirstName.ToLower() == firstName.ToLower() && customer.LastName.ToLower() == lastName.ToLower())
+                {
+                    var newCustomerInfo = EnterCustomerDetails();
+                    wasEdited = customerManipulator.EditExistingCustomer(customer, newCustomerInfo);
+                    if (wasEdited)
+                    {
+                        Console.WriteLine("Customer info successfully updated.");
+                        Console.ReadKey();
+                    }
+                    else
+                    {
+                        Console.WriteLine("Customer info could not be updated.");
+                        Console.ReadKey();
+                    }
+                }
+            }
         }
 
         private void DeleteCustomer()
         {
-
+            _allCustomers = customerManipulator.GetAllCustomers();
+        EnterName:
+            Console.Clear();
+            ViewAllCustomers();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("\n" +
+                "Enter the first and last name of the customer you wish to delete:\n");
+            string[] fullName = Console.ReadLine().Split(' ');
+            if (fullName != null && fullName.Length == 2)
+            {
+                string firstName = fullName.ElementAt<string>(0);
+                string lastName = fullName.ElementAt<string>(1);
+                bool wasDeleted = customerManipulator.DeleteCustomer(firstName, lastName);
+                if (wasDeleted)
+                {
+                    Console.WriteLine("Customer was successfully deleted.");
+                    Console.ReadKey();
+                }
+                else
+                {
+                    Console.WriteLine("Could not delete customer. Please try again.");
+                    Console.ReadKey();
+                    goto EnterName;
+                }
+            }
+            else
+            {
+                PressAnyKey();
+                goto EnterName;
+            }
         }
 
         private void SeedCustomerList()
