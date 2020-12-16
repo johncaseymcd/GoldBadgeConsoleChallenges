@@ -19,8 +19,6 @@ namespace GoldBadgeConsoleAppClasses
         public CustomerType Type { get; set; }
         public string EmailToSend { get; set; }
 
-        public Customer() { }
-
         public Customer(string first, string last, CustomerType type)
         {
             FirstName = first;
@@ -43,16 +41,16 @@ namespace GoldBadgeConsoleAppClasses
 
     public class CustomerCRUD
     {
-        private SortedList<string, Customer> _customerList = new SortedList<string, Customer>();
+        private List<Customer> _customerList = new List<Customer>();
 
         // Helper method to find customers by name
         private Customer FindCustomerByName(string lastName, string firstName)
         {
             foreach (var customer in _customerList)
             {
-                if (customer.Key == lastName && customer.Value.FirstName == firstName)
+                if (customer.LastName == lastName && customer.FirstName == firstName)
                 {
-                    return customer.Value;
+                    return customer;
                 }
             }
 
@@ -62,11 +60,11 @@ namespace GoldBadgeConsoleAppClasses
         // Create
         public void CreateCustomer(Customer newCustomer)
         {
-            _customerList.Add(newCustomer.LastName, newCustomer);
+            _customerList.Add(newCustomer);
         }
 
         // Read
-        public SortedList<string, Customer> GetAllCustomers()
+        public List<Customer> GetAllCustomers()
         {
             return _customerList;
         }
@@ -95,7 +93,7 @@ namespace GoldBadgeConsoleAppClasses
             var deleteCustomer = FindCustomerByName(oldCustomer.LastName, oldCustomer.FirstName);
             if (deleteCustomer != null)
             {
-                _customerList.Remove(oldCustomer.LastName);
+                _customerList.Remove(oldCustomer);
                 return true;
             }
             else
