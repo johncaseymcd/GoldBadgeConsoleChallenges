@@ -10,6 +10,8 @@ namespace GoldBadgeConsoleChallengeConsole_Green
     {
         static void Main(string[] args)
         {
+            var program = new KomodoGreenPlanProgramUI();
+            program.Run();
         }
     }
 }

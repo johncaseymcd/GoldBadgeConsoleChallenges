@@ -69,6 +69,7 @@ namespace GoldBadgeConsoleAppClasses
         public double Mileage { get; set; }
         public decimal BasePrice { get; set; }
         public List<Option> Options { get; set; }
+        public decimal AddOnPrice { get; set; }
 
         public Vehicle() { }
 
@@ -89,6 +90,40 @@ namespace GoldBadgeConsoleAppClasses
             Mileage = mileage;
             BasePrice = decimal.Round(basePrice, 2);
             Options = options;
+            AddOnPrice = 0m;
+            foreach (var option in options)
+            {
+                switch (option)
+                {
+                    case Option.Bluetooth:
+                        AddOnPrice += 500m;
+                        break;
+                    case Option.Leather_Seats:
+                        AddOnPrice += 1500m;
+                        break;
+                    case Option.Navigation:
+                        AddOnPrice += 2500m;
+                        break;
+                    case Option.Premium_Sound:
+                        AddOnPrice += 4000m;
+                        break;
+                    case Option.Remote_Start:
+                        AddOnPrice += 1000m;
+                        break;
+                    case Option.Seat_Heaters:
+                        AddOnPrice += 2000m;
+                        break;
+                    case Option.Spoiler:
+                        AddOnPrice += 500m;
+                        break;
+                    case Option.Steering_Wheel_Heater:
+                        AddOnPrice += 500m;
+                        break;
+                    case Option.Sunroof:
+                        AddOnPrice += 3000m;
+                        break;
+                }
+            }
         }
     }
 
@@ -123,9 +158,9 @@ namespace GoldBadgeConsoleAppClasses
         }
 
         // Update
-        public bool EditVehicle(int year, string make, string model, Vehicle newVehicle)
+        public bool EditVehicle(Vehicle oldVehicle, Vehicle newVehicle)
         {
-            var editVehicle = FindVehicleByYMM(year, make, model);
+            var editVehicle = FindVehicleByYMM(oldVehicle.Year, oldVehicle.Make, oldVehicle.Model);
             if (editVehicle != null)
             {
                 editVehicle.Fuel = newVehicle.Fuel;
@@ -152,9 +187,9 @@ namespace GoldBadgeConsoleAppClasses
         }
 
         // Delete
-        public bool DeleteVehicle(int year, string make, string model)
+        public bool DeleteVehicle(Vehicle vehicle)
         {
-            var deleteVehicle = FindVehicleByYMM(year, make, model);
+            var deleteVehicle = FindVehicleByYMM(vehicle.Year, vehicle.Make, vehicle.Model);
             if (deleteVehicle != null)
             {
                 _vehicleList.Remove(deleteVehicle);

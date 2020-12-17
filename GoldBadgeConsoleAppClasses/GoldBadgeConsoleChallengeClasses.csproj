@@ -45,6 +45,7 @@
     <Compile Include="KomodoClaims_ClaimClass.cs" />
     <Compile Include="KomodoCafe_IngredientClass.cs" />
     <Compile Include="KomodoCafe_MenuClass.cs" />
+    <Compile Include="KomodoGreenPlan_VehicleClass.cs" />
     <Compile Include="KomodoGreeting_CustomerClass.cs" />
     <Compile Include="KomodoOuting_OutingClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
