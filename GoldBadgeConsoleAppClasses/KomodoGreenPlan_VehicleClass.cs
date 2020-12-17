@@ -50,7 +50,8 @@ namespace GoldBadgeConsoleAppClasses
         Seat_Heaters,
         Spoiler,
         Steering_Wheel_Heater,
-        Sunroof
+        Sunroof, 
+        None
     }
 
     public class Vehicle
@@ -71,6 +72,7 @@ namespace GoldBadgeConsoleAppClasses
         public decimal BasePrice { get; set; }
         public List<Option> Options { get; set; }
         public decimal AddOnPrice { get; set; }
+        public decimal TotalPrice{ get; set; }
 
         public Vehicle() { }
 
@@ -79,7 +81,7 @@ namespace GoldBadgeConsoleAppClasses
             Fuel = fuel;
             Body = body;
             Engine = engine;
-            Drivetrain = Drivetrain;
+            Drivetrain = drivetrain;
             Year = year;
             Make = make;
             Model = model;
@@ -123,8 +125,12 @@ namespace GoldBadgeConsoleAppClasses
                     case Option.Sunroof:
                         AddOnPrice += 3000m;
                         break;
+                    case Option.None:
+                        AddOnPrice = 0m;
+                        break;
                 }
             }
+            TotalPrice = BasePrice + AddOnPrice;
         }
     }
 
