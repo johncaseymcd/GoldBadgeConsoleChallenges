@@ -21,7 +21,8 @@ namespace GoldBadgeConsoleAppClasses
         Hatchback,
         Minivan,
         Pickup,
-        Sedan
+        Sedan,
+        SUV
     }
 
     public enum EnginePlacement
