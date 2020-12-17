@@ -104,29 +104,41 @@ namespace GoldBadgeConsoleChallengeConsole_Green
 
         private void AddNewVehicle()
         {
-            var newVehicle = new Vehicle();
-
         SetYMM:
             Console.Clear();
             Console.WriteLine("Enter the year, make, and model of the car (ex. 2011 Honda Civic):\n");
             string inputYMM = Console.ReadLine();
             string[] separateYMM = inputYMM.Split(' ');
+            int addYear;
+            string addMake;
+            string addModel = "";
+            string addTrim;
+            FuelType addFuel;
+            BodyType addBody;
+            EnginePlacement addEngine;
+            Drivetrain addDrivetrain;
+            int addHorsepower;
+            int addCity;
+            int addHighway;
+            double addMileage;
+            decimal addBasePrice;
+
             if (separateYMM != null && separateYMM.Length >= 3)
             {
                 bool parseYear = int.TryParse(separateYMM.ElementAt<string>(0), out int vehicleYear);
                 if (parseYear)
                 {
-                    newVehicle.Year = vehicleYear;
+                    addYear = vehicleYear;
                 }
                 else
                 {
                     PressAnyKey();
                     goto SetYMM;
                 }
-                newVehicle.Make = separateYMM.ElementAt<string>(1);
+                addMake = separateYMM.ElementAt<string>(1);
                 for (int x = 2; x < separateYMM.Length; x++)
                 {
-                    newVehicle.Model += separateYMM.ElementAt<string>(x) + " ";
+                    addModel += separateYMM.ElementAt<string>(x) + " ";
                 }
             }
             else
@@ -138,7 +150,7 @@ namespace GoldBadgeConsoleChallengeConsole_Green
             // Set Trim
             Console.Clear();
             Console.WriteLine("Enter the vehicle's trim (if it's a base model, just press Enter to continue):\n");
-            newVehicle.Trim = Console.ReadLine();
+            addTrim = Console.ReadLine();
 
         SetFuelType:
             Console.Clear();
@@ -156,13 +168,13 @@ namespace GoldBadgeConsoleChallengeConsole_Green
                 switch (whichFuelType)
                 {
                     case 1:
-                        newVehicle.Fuel = FuelType.Electric;
+                        addFuel = FuelType.Electric;
                         break;
                     case 2:
-                        newVehicle.Fuel = FuelType.Gas;
+                        addFuel = FuelType.Gas;
                         break;
                     case 3:
-                        newVehicle.Fuel = FuelType.Hybrid;
+                        addFuel = FuelType.Hybrid;
                         break;
                     default:
                         PressAnyKey();
@@ -191,28 +203,28 @@ namespace GoldBadgeConsoleChallengeConsole_Green
                 switch (whichBodyType)
                 {
                     case 1:
-                        newVehicle.Body = BodyType.Convertible;
+                        addBody = BodyType.Convertible;
                         break;
                     case 2:
-                        newVehicle.Body = BodyType.Coupe;
+                        addBody = BodyType.Coupe;
                         break;
                     case 3:
-                        newVehicle.Body = BodyType.Crossover;
+                        addBody = BodyType.Crossover;
                         break;
                     case 4:
-                        newVehicle.Body = BodyType.Hatchback;
+                        addBody = BodyType.Hatchback;
                         break;
                     case 5:
-                        newVehicle.Body = BodyType.Minivan;
+                        addBody = BodyType.Minivan;
                         break;
                     case 6:
-                        newVehicle.Body = BodyType.Pickup;
+                        addBody = BodyType.Pickup;
                         break;
                     case 7:
-                        newVehicle.Body = BodyType.Sedan;
+                        addBody = BodyType.Sedan;
                         break;
                     case 8:
-                        newVehicle.Body = BodyType.SUV;
+                        addBody = BodyType.SUV;
                         break;
                     default:
                         PressAnyKey();
@@ -231,15 +243,15 @@ namespace GoldBadgeConsoleChallengeConsole_Green
             string inputEnginePlacement = Console.ReadLine().ToLower();
             if (inputEnginePlacement == "f")
             {
-                newVehicle.Engine = EnginePlacement.Front;
+                addEngine = EnginePlacement.Front;
             }
             else if (inputEnginePlacement == "m")
             {
-                newVehicle.Engine = EnginePlacement.Middle;
+                addEngine = EnginePlacement.Middle;
             }
             else if (inputEnginePlacement == "r")
             {
-                newVehicle.Engine = EnginePlacement.Rear;
+                addEngine = EnginePlacement.Rear;
             }
             else
             {
@@ -253,19 +265,19 @@ namespace GoldBadgeConsoleChallengeConsole_Green
             string inputDrivetrain = Console.ReadLine().ToLower();
             if (inputDrivetrain == "4wd")
             {
-                newVehicle.Drivetrain = Drivetrain.FourWD;
+                addDrivetrain = Drivetrain.FourWD;
             }
             else if (inputDrivetrain == "awd")
             {
-                newVehicle.Drivetrain = Drivetrain.AWD;
+                addDrivetrain = Drivetrain.AWD;
             }
             else if(inputDrivetrain == "fwd")
             {
-                newVehicle.Drivetrain = Drivetrain.FWD;
+                addDrivetrain = Drivetrain.FWD;
             }
             else if(inputDrivetrain == "rwd")
             {
-                newVehicle.Drivetrain = Drivetrain.RWD;
+                addDrivetrain = Drivetrain.RWD;
             }
             else
             {
@@ -280,7 +292,7 @@ namespace GoldBadgeConsoleChallengeConsole_Green
             bool parseHorsepower = int.TryParse(inputHorsepower, out int horsepower);
             if (parseHorsepower)
             {
-                newVehicle.Horsepower = horsepower;
+                addHorsepower = horsepower;
             }
             else
             {
@@ -299,8 +311,8 @@ namespace GoldBadgeConsoleChallengeConsole_Green
                 bool parseHighwayMPG = int.TryParse(mpgs.ElementAt<string>(1), out int highwayMPG);
                 if (parseCityMPG && parseHighwayMPG)
                 {
-                    newVehicle.CityMPG = cityMPG;
-                    newVehicle.HighwayMPG = highwayMPG;
+                    addCity = cityMPG;
+                    addHighway = highwayMPG;
                 }
                 else
                 {
@@ -321,7 +333,7 @@ namespace GoldBadgeConsoleChallengeConsole_Green
             bool parseMileage = double.TryParse(inputMileage, out double mileage);
             if (parseMileage)
             {
-                newVehicle.Mileage = mileage;
+                addMileage = mileage;
             }
             else
             {
@@ -336,7 +348,7 @@ namespace GoldBadgeConsoleChallengeConsole_Green
             bool parseBasePrice = decimal.TryParse(inputBasePrice, out decimal basePrice);
             if (parseBasePrice)
             {
-                newVehicle.BasePrice = basePrice;
+                addBasePrice = basePrice;
             }
             else
             {
@@ -344,10 +356,10 @@ namespace GoldBadgeConsoleChallengeConsole_Green
                 goto SetBasePrice;
             }
 
+            var optionsList = new List<Option>();
         AddOptions:
             Console.Clear();
             Console.WriteLine("Add any options (press F to finish)?\n");
-            var optionsList = new List<Option>();
             int optionCounter = 0;
             foreach(var option in Enum.GetValues(typeof(Option)))
             {
@@ -403,18 +415,24 @@ namespace GoldBadgeConsoleChallengeConsole_Green
                     goto AddOptions;
                 }
             } while (inputOption.ToLower() != "f");
-            newVehicle.Options = optionsList;
 
+            var newVehicle = new Vehicle(addFuel, addBody, addEngine, addDrivetrain, addYear, addMake, addModel, addTrim, addHorsepower, addCity, addHighway, addMileage, addBasePrice, optionsList);
             vehicleManipulator.CreateVehicle(newVehicle);
         }
 
+        // Helper method to show data header
+        private void ShowHeader()
+        {
+            Console.WriteLine("{0} \t{1} \t{2} \t{3} \t{4} \t{5} \t{6} \t{7} \t{8} \t{9} \t{10} \t{11} \t{12} \t{13}\n", "Year".PadRight(5), "Make".PadRight(8), "Model".PadRight(20), "Trim".PadRight(10), "Fuel Type".PadRight(8), "Body Type".PadRight(8), "Engine".PadRight(6), "Drivetrain".PadRight(10), "Horsepower".PadRight(10), "Efficiency".PadRight(10), "Mileage".PadRight(10), "Base Price".PadRight(10), "Cost + Options".PadRight(12), "Options".PadRight(22));
+        }
+
         // Helper method to output vehicles
-        private void ShowVehicles(int year, string make, string model, string trim)
+        private void ShowVehicle(int year, string make, string model)
         {
             _allVehicles = vehicleManipulator.GetAllVehicles();
             foreach (var vehicle in _allVehicles)
             {
-                if(vehicle.Year == year && vehicle.Make == make && vehicle.Model == model && vehicle.Trim == trim)
+                if(vehicle.Year == year && vehicle.Make == make && vehicle.Model == model)
                 {
                     if (vehicle.Fuel == FuelType.Electric)
                     {
@@ -453,10 +471,10 @@ namespace GoldBadgeConsoleChallengeConsole_Green
         {
             Console.Clear();
             _allVehicles = vehicleManipulator.GetAllVehicles();
-            Console.WriteLine("{0} \t{1} \t{2} \t{3} \t{4} \t{5} \t{6} \t{7} \t{8} \t{9} \t{10} \t{11} \t{12} \t{13}\n", "Year".PadRight(5), "Make".PadRight(8), "Model".PadRight(20), "Trim".PadRight(10), "Fuel Type".PadRight(8), "Body Type".PadRight(8), "Engine".PadRight(6), "Drivetrain".PadRight(10), "Horsepower".PadRight(10), "Efficiency".PadRight(10), "Mileage".PadRight(10), "Base Price".PadRight(10), "Cost + Options".PadRight(12), "Options".PadRight(22));
+            ShowHeader();
             foreach (var vehicle in _allVehicles)
             {
-                ShowVehicles(vehicle.Year, vehicle.Make, vehicle.Model, vehicle.Trim);
+                ShowVehicle(vehicle.Year, vehicle.Make, vehicle.Model);
             }
         }
 
@@ -464,19 +482,85 @@ namespace GoldBadgeConsoleChallengeConsole_Green
         {
             Console.Clear();
             _allVehicles = vehicleManipulator.GetAllVehicles();
-            Console.WriteLine("{0} \t{1} \t{2} \t{3} \t{4} \t{5} \t{6} \t{7} \t{8} \t{9} \t{10} \t{11} \t{12} \t{13}\n", "Year".PadRight(5), "Make".PadRight(8), "Model".PadRight(20), "Trim".PadRight(10), "Fuel Type".PadRight(8), "Body Type".PadRight(8), "Engine".PadRight(6), "Drivetrain".PadRight(10), "Horsepower".PadRight(10), "Efficiency".PadRight(10), "Mileage".PadRight(10), "Base Price".PadRight(10), "Cost + Options".PadRight(12), "Options".PadRight(22));
+            ShowHeader();
             foreach(var vehicle in _allVehicles)
             {
                 if (vehicle.Fuel == type)
                 {
-                    ShowVehicles(vehicle.Year, vehicle.Make, vehicle.Model, vehicle.Trim);
+                    ShowVehicle(vehicle.Year, vehicle.Make, vehicle.Model);
                 }
             }
         }
 
         private void EditExistingVehicle()
         {
+        EnterOldVehicle:
+            Console.Clear();
+            ViewAllVehicles();
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("Enter the year, make, and model of the vehicle you wish to edit:\n");
+            string inputYMMT = Console.ReadLine();
+            string[] separateYMMT = inputYMMT.Split(' ');
+            if (separateYMMT != null && separateYMMT.Length >= 3)
+            {
+                int year = int.Parse(separateYMMT.ElementAt<string>(0));
+                string make = separateYMMT.ElementAt<string>(1);
+                string model = separateYMMT.ElementAt<string>(2);
+                var oldVehicle = vehicleManipulator.FindVehicleByYMM(year, make, model);
+                double editMileage;
+                decimal editBasePrice;
 
+            EnterMileage:
+                Console.Clear();
+                ShowHeader();
+                ShowVehicle(year, make, model);
+                Console.WriteLine("\n" +
+                    "Enter the new mileage:\n");
+                if (double.TryParse(Console.ReadLine(), out double newMileage))
+                {
+                    editMileage = newMileage;
+                }
+                else
+                {
+                    PressAnyKey();
+                    goto EnterMileage;
+                }
+
+            EnterBasePrice:
+                Console.Clear();
+                ShowHeader();
+                ShowVehicle(year, make, model);
+                Console.WriteLine("\n" +
+                    "Enter the new base price:\n");
+                if (decimal.TryParse(Console.ReadLine(), out decimal newBasePrice))
+                {
+                    editBasePrice = newBasePrice;
+                }
+                else
+                {
+                    PressAnyKey();
+                    goto EnterBasePrice;
+                }
+                bool wasEdited = false;
+                wasEdited = vehicleManipulator.EditVehicle(oldVehicle, editMileage, editBasePrice);
+                if (wasEdited)
+                {
+                    Console.WriteLine("Vehicle successfully updated.");
+                    Console.ReadKey();
+                    MainMenu();
+                }
+                else
+                {
+                    Console.WriteLine("Could not update vehicle.");
+                    Console.ReadKey();
+                    MainMenu();
+                }
+            }
+            else
+            {
+                PressAnyKey();
+                goto EnterOldVehicle;
+            }
         }
 
         private void DeleteExistingVehicle()

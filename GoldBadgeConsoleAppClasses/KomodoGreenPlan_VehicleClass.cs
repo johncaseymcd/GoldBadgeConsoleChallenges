@@ -139,7 +139,7 @@ namespace GoldBadgeConsoleAppClasses
         private List<Vehicle> _vehicleList = new List<Vehicle>();
 
         // Helper method to find vehicle by year/make/model
-        private Vehicle FindVehicleByYMM(int year, string make, string model)
+        public Vehicle FindVehicleByYMM(int year, string make, string model)
         {
             foreach (var vehicle in _vehicleList)
             {
@@ -165,26 +165,14 @@ namespace GoldBadgeConsoleAppClasses
         }
 
         // Update
-        public bool EditVehicle(Vehicle oldVehicle, Vehicle newVehicle)
+        public bool EditVehicle(Vehicle oldVehicle, double newMileage, decimal newBasePrice)
         {
             var editVehicle = FindVehicleByYMM(oldVehicle.Year, oldVehicle.Make, oldVehicle.Model);
             if (editVehicle != null)
             {
-                editVehicle.Fuel = newVehicle.Fuel;
-                editVehicle.Body = newVehicle.Body;
-                editVehicle.Engine = newVehicle.Engine;
-                editVehicle.Drivetrain = newVehicle.Drivetrain;
-                editVehicle.Year = newVehicle.Year;
-                editVehicle.Make = newVehicle.Make;
-                editVehicle.Model = newVehicle.Model;
-                editVehicle.Trim = newVehicle.Trim;
-                editVehicle.Horsepower = newVehicle.Horsepower;
-                editVehicle.CityMPG = newVehicle.CityMPG;
-                editVehicle.HighwayMPG = newVehicle.HighwayMPG;
-                editVehicle.Efficiency = newVehicle.Efficiency;
-                editVehicle.Mileage = newVehicle.Mileage;
-                editVehicle.BasePrice = newVehicle.BasePrice;
-                editVehicle.Options = newVehicle.Options;
+                editVehicle.Mileage = newMileage;
+                editVehicle.BasePrice = newBasePrice;
+                editVehicle.TotalPrice = newBasePrice + editVehicle.AddOnPrice;
                 return true;
             }
             else

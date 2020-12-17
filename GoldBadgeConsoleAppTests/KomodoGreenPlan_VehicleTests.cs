@@ -31,16 +31,16 @@ namespace GoldBadgeConsoleAppTests
         {
             // Arrange (intialize variables and add old car to list)
             var oldOptions = new List<Option> { Option.Leather_Seats, Option.Premium_Sound, Option.Spoiler, Option.Sunroof };
-            var oldCar = new Vehicle(FuelType.Gas, BodyType.Coupe, EnginePlacement.Front, Drivetrain.RWD, 2015, "Dodge", "Challenger", null, 350, 16, 25, 40000d, 27000m, oldOptions);
+            var oldCar = new Vehicle(FuelType.Gas, BodyType.Coupe, EnginePlacement.Front, Drivetrain.RWD, 2015, "Dodge", "Challenger", "", 350, 16, 25, 40000d, 27000m, oldOptions);
             vehicleTester.CreateVehicle(oldCar);
 
             var newOptions = new List<Option> { Option.Bluetooth, Option.Leather_Seats, Option.Navigation, Option.Premium_Sound, Option.Seat_Heaters, Option.Spoiler, Option.Sunroof };
-            var newCar = new Vehicle(FuelType.Gas, BodyType.Coupe, EnginePlacement.Front, Drivetrain.RWD, 2015, "Dodge", "Challenger", null, 350, 16, 25, 54389d, 27000m, newOptions);
+            var newCar = new Vehicle(FuelType.Gas, BodyType.Coupe, EnginePlacement.Front, Drivetrain.RWD, 2015, "Dodge", "Challenger", "", 350, 16, 25, 54389d, 27000m, newOptions);
 
             bool wasEdited = false;
 
             // Act (replace oldCar with newCar)
-            wasEdited = vehicleTester.EditVehicle(oldCar, newCar);
+            wasEdited = vehicleTester.EditVehicle(oldCar, newCar.Mileage, newCar.BasePrice);
 
             // Assert (that the EditVehicle() method returns true)
             Assert.IsTrue(wasEdited, "Edit failed.");
