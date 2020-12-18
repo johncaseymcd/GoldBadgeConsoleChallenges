@@ -4,16 +4,17 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{ECDDB4A8-34D5-414D-915F-6281F3564321}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GoldBadgeConsoleAppClasses</RootNamespace>
-    <AssemblyName>GoldBadgeConsoleAppClasses</AssemblyName>
+    <ProjectGuid>{1245D5B0-1112-4D59-9FC0-B320C79505CC}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>GoldBadgeConsoleChallengeConsole_BBQ</RootNamespace>
+    <AssemblyName>GoldBadgeConsoleChallengeConsole_BBQ</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,6 +24,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -41,15 +43,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="KomodoBadges_BadgeClass.cs" />
-    <Compile Include="KomodoBarbecue_BarbecueClass.cs" />
-    <Compile Include="KomodoClaims_ClaimClass.cs" />
-    <Compile Include="KomodoCafe_IngredientClass.cs" />
-    <Compile Include="KomodoCafe_MenuClass.cs" />
-    <Compile Include="KomodoGreenPlan_VehicleClass.cs" />
-    <Compile Include="KomodoGreeting_CustomerClass.cs" />
-    <Compile Include="KomodoOuting_OutingClass.cs" />
+    <Compile Include="KomodoBBQ_ProgramUI.cs" />
+    <Compile Include="KomodoBBQ_Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GoldBadgeConsoleAppClasses\GoldBadgeConsoleChallengeClasses.csproj">
+      <Project>{ecddb4a8-34d5-414d-915f-6281f3564321}</Project>
+      <Name>GoldBadgeConsoleChallengeClasses</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

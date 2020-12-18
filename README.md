@@ -123,13 +123,15 @@ To get a local copy up and running follow these simple steps.
 
 <b>Challenge 6: Green Plan</b> is a database for info about customers' vehicles. The user can view data about each vehicle, such as fuel efficiency, mileage, optional add-ons, and whether the vehicle is electric, hybrid, or gas-powered. This data can be used to offer discounts and incentives for current/potential customers.
 
+<b>Challenge 7: Barbecue</b> is a table that shows the expenses for a meal booth and a treat booth at a company BBQ event. The user can input sales data for new BBQ events and view cost breakdowns for all past events.
+
 
 <!-- ROADMAP -->
 ## Roadmap
 
 See the [open issues](https://github.com/johncaseymcd/GoldBadgeConsoleChallenges/issues) for a list of proposed features (and known issues).
 
-Will be building <b>Challenge 7: Barbecue</b> to keep track of catering expenses.
+Challenge 7 complete. Will build <b>Challenge 8: Smart Insurance</b> over the weekend.
 
 
 
