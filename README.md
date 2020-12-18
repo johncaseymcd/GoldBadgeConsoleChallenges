@@ -95,14 +95,6 @@
 
 To get a local copy up and running follow these simple steps.
 
-### Prerequisites
-
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-  ```sh
-  npm install npm@latest -g
-  ```
-
 ### Installation
 
 1. Clone the repo
@@ -119,17 +111,17 @@ This is an example of how to list things you need to use the software and how to
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-<b>Challenge 1:</b> This is a cafe menu. The user receives a pre-loaded list of ingredients and menu items. They are able to add, remove, and edit meals and ingredients as necessary.
+<b>Challenge 1: Cafe</b> is a cafe menu. The user receives a pre-loaded list of ingredients and menu items. They are able to add, remove, and edit meals and ingredients as necessary.
 
-<b>Challenge 2:</b> This is a work queue for claims processors. The user can add and view claims, or enter the work queue where they will receive claims one by one until all claims in the queue have been processed.
+<b>Challenge 2: Claims</b> is a work queue for claims processors. The user can add and view claims, or enter the work queue where they will receive claims one by one until all claims in the queue have been processed.
 
-<b>Challenge 3:</b> This is a security badge activation program. The user can activate/deactivate a badge as well as grant/revoke access to floors and rooms of the building for existing badges.
+<b>Challenge 3: Badges</b> is a security badge activation program. The user can activate/deactivate a badge as well as grant/revoke access to floors and rooms of the building for existing badges.
 
-<b>Challenge 4:</b> This is a record of expenses for company outings. The user can add new outings or edit existing ones. They can also view lists of outings by year or type of outing. The program will indicate if the outings were over/under budget for each year & type of outing.
+<b>Challenge 4: Outings</b> is a record of expenses for company outings. The user can add new outings or edit existing ones. They can also view lists of outings by year or type of outing. The program will indicate if the outings were over/under budget for each year & type of outing.
 
-<b>Challenge 5:</b> This is a template generator for marketing emails. The user can view a list of customers and see whether they have had a policy recently, more than 6 months ago, or never, and decide which email template to use based on that info.
+<b>Challenge 5: Emails</b> is a template generator for marketing emails. The user can view a list of customers and see whether they have had a policy recently, more than 6 months ago, or never, and decide which email template to use based on that info.
 
-<b>Challenge 6:</b> This is a database for info about customers' vehicles. The user can view data about each vehicle, such as fuel efficiency, mileage, optional add-ons, and whether the vehicle is electric, hybrid, or gas-powered. This data can be used to offer discounts and incentives for current/potential customers.
+<b>Challenge 6: Green Plan</b> is a database for info about customers' vehicles. The user can view data about each vehicle, such as fuel efficiency, mileage, optional add-ons, and whether the vehicle is electric, hybrid, or gas-powered. This data can be used to offer discounts and incentives for current/potential customers.
 
 
 <!-- ROADMAP -->
@@ -137,7 +129,7 @@ This is an example of how to list things you need to use the software and how to
 
 See the [open issues](https://github.com/johncaseymcd/GoldBadgeConsoleChallenges/issues) for a list of proposed features (and known issues).
 
-Will be building Challenge 7: Barbecue to keep track of catering expenses.
+Will be building <b>Challenge 7: Barbecue</b> to keep track of catering expenses.
 
 
 
@@ -186,14 +178,14 @@ Each of the following has been a great help in the completion of these challenge
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 [contributors-shield]: https://img.shields.io/github/contributors/johncaseymcd/repo.svg?style=for-the-badge
-[contributors-url]: https://github.com/johncaseymcd/repo/graphs/contributors
+[contributors-url]: https://github.com/johncaseymcd/GoldBadgeConsoleChallenges/graphs/contributors
 [forks-shield]: https://img.shields.io/github/forks/johncaseymcd/repo.svg?style=for-the-badge
-[forks-url]: https://github.com/johncaseymcd/repo/network/members
+[forks-url]: https://github.com/johncaseymcd/GoldBadgeConsoleChallenges/network/members
 [stars-shield]: https://img.shields.io/github/stars/johncaseymcd/repo.svg?style=for-the-badge
-[stars-url]: https://github.com/johncaseymcd/repo/stargazers
+[stars-url]: https://github.com/johncaseymcd/GoldBadgeConsoleChallenges/stargazers
 [issues-shield]: https://img.shields.io/github/issues/johncaseymcd/repo.svg?style=for-the-badge
-[issues-url]: https://github.com/johncaseymcd/repo/issues
+[issues-url]: https://github.com/johncaseymcd/GoldBadgeConsoleChallenges/issues
 [license-shield]: https://img.shields.io/github/license/johncaseymcd/repo.svg?style=for-the-badge
-[license-url]: https://github.com/johncaseymcd/repo/blob/master/LICENSE.txt
+[license-url]: https://github.com/johncaseymcd/GoldBadgeConsoleChallenges/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/johncaseymcd
+[linkedin-url]: https://www.linkedin.com/in/casey-mcdonough-5a8b66135/
