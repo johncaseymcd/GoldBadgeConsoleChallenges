@@ -158,7 +158,6 @@ namespace GoldBadgeConsoleChallengeConsole_Email
         private void EditCustomer()
         {
             _allCustomers = customerManipulator.GetAllCustomers();
-        EnterName:
             Console.Clear();
             ViewAllCustomers();
             Console.ForegroundColor = ConsoleColor.Yellow;

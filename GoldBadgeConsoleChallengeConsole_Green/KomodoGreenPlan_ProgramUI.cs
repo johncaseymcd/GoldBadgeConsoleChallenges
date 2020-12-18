@@ -423,16 +423,16 @@ namespace GoldBadgeConsoleChallengeConsole_Green
         // Helper method to show data header
         private void ShowHeader()
         {
-            Console.WriteLine("{0} \t{1} \t{2} \t{3} \t{4} \t{5} \t{6} \t{7} \t{8} \t{9} \t{10} \t{11} \t{12} \t{13}\n", "Year".PadRight(5), "Make".PadRight(8), "Model".PadRight(20), "Trim".PadRight(10), "Fuel Type".PadRight(8), "Body Type".PadRight(8), "Engine".PadRight(6), "Drivetrain".PadRight(10), "Horsepower".PadRight(10), "Efficiency".PadRight(10), "Mileage".PadRight(10), "Base Price".PadRight(10), "Cost + Options".PadRight(12), "Options".PadRight(22));
+            Console.WriteLine("{0} \t{1} \t{2} \t{3} \t{4} \t{5} \t{6} \t{7} \t{8} \t{9} \t{10} \t{11} \t{12} \t{13} \t{14}\n", "ID", "Year".PadRight(5), "Make".PadRight(8), "Model".PadRight(20), "Trim".PadRight(10), "Fuel Type".PadRight(8), "Body Type".PadRight(8), "Engine".PadRight(6), "Drivetrain".PadRight(10), "Horsepower".PadRight(10), "Efficiency".PadRight(10), "Mileage".PadRight(10), "Base Price".PadRight(10), "Cost + Options".PadRight(12), "Options".PadRight(22));
         }
 
         // Helper method to output vehicles
-        private void ShowVehicle(int year, string make, string model)
+        private void ShowVehicle(int id)
         {
             _allVehicles = vehicleManipulator.GetAllVehicles();
             foreach (var vehicle in _allVehicles)
             {
-                if(vehicle.Year == year && vehicle.Make == make && vehicle.Model == model)
+                if(vehicle.ID == id)
                 {
                     if (vehicle.Fuel == FuelType.Electric)
                     {
@@ -446,7 +446,8 @@ namespace GoldBadgeConsoleChallengeConsole_Green
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
                     }
-                    Console.WriteLine("{0} \t{1} \t{2} \t{3} \t{4} \t{5} \t{6} \t{7} \t{8} \t{9}/{10}/{11} \t{12} \t{13} \t{14} \t{15}\n",
+                    Console.WriteLine("{0} \t{1} \t{2} \t{3} \t{4} \t{5} \t{6} \t{7} \t{8} \t{9} \t{10}/{11}/{12} \t{13} \t{14} \t{15} \t{16}\n",
+                        vehicle.ID,
                         vehicle.Year.ToString().PadRight(5),
                         vehicle.Make.PadRight(8),
                         vehicle.Model.PadRight(20),
@@ -462,7 +463,7 @@ namespace GoldBadgeConsoleChallengeConsole_Green
                         vehicle.Mileage.ToString("N").PadRight(10),
                         string.Format(new CultureInfo("en-us", true), "{0:C}", vehicle.BasePrice).PadRight(10),
                         string.Format(new CultureInfo("en-us", true), "{0:C}", vehicle.TotalPrice).PadRight(12),
-                        string.Format("{0}", string.Join("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t", vehicle.Options).Replace('_', ' ')).PadRight(22));
+                        string.Format("{0}", string.Join("\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t", vehicle.Options).Replace('_', ' ')).PadRight(22));
                 }
             }
         }
@@ -472,9 +473,9 @@ namespace GoldBadgeConsoleChallengeConsole_Green
             Console.Clear();
             _allVehicles = vehicleManipulator.GetAllVehicles();
             ShowHeader();
-            foreach (var vehicle in _allVehicles)
+            for(int x = 1; x <= _allVehicles.Count; x++)
             {
-                ShowVehicle(vehicle.Year, vehicle.Make, vehicle.Model);
+                ShowVehicle(x);
             }
         }
 
@@ -487,90 +488,106 @@ namespace GoldBadgeConsoleChallengeConsole_Green
             {
                 if (vehicle.Fuel == type)
                 {
-                    ShowVehicle(vehicle.Year, vehicle.Make, vehicle.Model);
+                    ShowVehicle(vehicle.ID);
                 }
             }
         }
 
         private void EditExistingVehicle()
         {
-        EnterOldVehicle:
+        EnterYMM:
             Console.Clear();
             ViewAllVehicles();
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("Enter the year, make, and model of the vehicle you wish to edit:\n");
-            string inputYMMT = Console.ReadLine();
-            string[] separateYMMT = inputYMMT.Split(' ');
-            if (separateYMMT != null && separateYMMT.Length >= 3)
+            Console.WriteLine("Enter the ID of the vehicle you wish to edit:");
+            string inputID = Console.ReadLine();
+            bool parseID = int.TryParse(inputID, out int id);
+            if (!parseID)
             {
-                int year = int.Parse(separateYMMT.ElementAt<string>(0));
-                string make = separateYMMT.ElementAt<string>(1);
-                string model = separateYMMT.ElementAt<string>(2);
-                var oldVehicle = vehicleManipulator.FindVehicleByYMM(year, make, model);
-                double editMileage;
-                decimal editBasePrice;
+                PressAnyKey();
+                goto EnterYMM;
+            }
+            Vehicle editVehicle = vehicleManipulator.FindVehicleByYMM(id);
 
-            EnterMileage:
-                Console.Clear();
-                ShowHeader();
-                ShowVehicle(year, make, model);
-                Console.WriteLine("\n" +
-                    "Enter the new mileage:\n");
-                if (double.TryParse(Console.ReadLine(), out double newMileage))
-                {
-                    editMileage = newMileage;
-                }
-                else
-                {
-                    PressAnyKey();
-                    goto EnterMileage;
-                }
+        EnterMileage:
+            Console.Clear();
+            ShowHeader();
+            ShowVehicle(id);
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("\n" +
+                "Enter the new mileage:\n");
+            string inputMileage = Console.ReadLine();
+            bool parseMileage = double.TryParse(inputMileage, out double newMileage);
+            if (!parseMileage)
+            {
+                PressAnyKey();
+                goto EnterMileage;
+            }
 
-            EnterBasePrice:
-                Console.Clear();
-                ShowHeader();
-                ShowVehicle(year, make, model);
-                Console.WriteLine("\n" +
-                    "Enter the new base price:\n");
-                if (decimal.TryParse(Console.ReadLine(), out decimal newBasePrice))
-                {
-                    editBasePrice = newBasePrice;
-                }
-                else
-                {
-                    PressAnyKey();
-                    goto EnterBasePrice;
-                }
-                bool wasEdited = false;
-                wasEdited = vehicleManipulator.EditVehicle(oldVehicle, editMileage, editBasePrice);
-                if (wasEdited)
-                {
-                    Console.WriteLine("Vehicle successfully updated.");
-                    Console.ReadKey();
-                    MainMenu();
-                }
-                else
-                {
-                    Console.WriteLine("Could not update vehicle.");
-                    Console.ReadKey();
-                    MainMenu();
-                }
+        EnterBasePrice:
+            Console.Clear();
+            ShowHeader();
+            ShowVehicle(id);
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("\n" +
+                "Enter the new base price:\n");
+            string inputBasePrice = Console.ReadLine();
+            bool parseBasePrice = decimal.TryParse(inputBasePrice, out decimal newBasePrice);
+            if(!parseBasePrice)
+            {
+                PressAnyKey();
+                goto EnterBasePrice;
+            }
+
+            bool wasEdited = vehicleManipulator.EditVehicle(editVehicle, newMileage, newBasePrice);
+            if (wasEdited)
+            {
+                Console.WriteLine("Vehicle successfully updated.");
+                Console.ReadKey();
+                MainMenu();
             }
             else
             {
-                PressAnyKey();
-                goto EnterOldVehicle;
+                Console.WriteLine("Could not update vehicle.");
+                Console.ReadKey();
+                MainMenu();
             }
         }
 
         private void DeleteExistingVehicle()
         {
+        EnterYMM:
+            Console.Clear();
+            ViewAllVehicles();
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine("Enter the ID of the vehicle you wish to delete:\n");
+            string inputID = Console.ReadLine();
+            bool parseID = int.TryParse(inputID, out int id);
+            if (!parseID)
+            {
+                PressAnyKey();
+                goto EnterYMM;
+            }
+            var deleteVehicle = vehicleManipulator.FindVehicleByYMM(id);
 
+            bool wasDeleted = vehicleManipulator.DeleteVehicle(deleteVehicle);
+            if (wasDeleted)
+            {
+                Console.WriteLine("Vehicle successfully deleted.");
+                Console.ReadKey();
+                MainMenu();
+            }
+            else
+            {
+                Console.WriteLine("Could not delete vehicle.");
+                Console.ReadKey();
+                MainMenu();
+            }
         }
 
         private void SeedVehicleInventory()
         {
-            vehicleManipulator.CreateVehicle(new Vehicle(FuelType.Gas, BodyType.Convertible, EnginePlacement.Front, Drivetrain.RWD, 2021, "Chevrolet", "Corvette", "Stingray 2LT", 490, 15, 27, 0, 74000, new List<Option> { Option.Leather_Seats, Option.Navigation, Option.Premium_Sound }));
+            vehicleManipulator.CreateVehicle(new Vehicle(FuelType.Gas, BodyType.Convertible, EnginePlacement.Middle, Drivetrain.RWD, 2021, "Chevrolet", "Corvette", "Stingray 2LT", 490, 15, 27, 0, 74000, new List<Option> { Option.Leather_Seats, Option.Navigation, Option.Premium_Sound }));
 
             vehicleManipulator.CreateVehicle(new Vehicle(FuelType.Electric, BodyType.SUV, EnginePlacement.Front, Drivetrain.AWD, 2020, "Tesla", "Model X", "Performance", 778, 90, 90, 0, 100000, new List<Option> { Option.Remote_Start, Option.Sunroof }));
 

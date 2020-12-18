@@ -56,6 +56,7 @@ namespace GoldBadgeConsoleAppClasses
 
     public class Vehicle
     {
+        public int ID { get; set; }
         public FuelType Fuel { get; set; }
         public BodyType Body { get; set; }
         public EnginePlacement Engine { get; set; }
@@ -139,11 +140,11 @@ namespace GoldBadgeConsoleAppClasses
         private List<Vehicle> _vehicleList = new List<Vehicle>();
 
         // Helper method to find vehicle by year/make/model
-        public Vehicle FindVehicleByYMM(int year, string make, string model)
+        public Vehicle FindVehicleByYMM(int id)
         {
             foreach (var vehicle in _vehicleList)
             {
-                if (vehicle.Year == year && vehicle.Make.ToLower() == make.ToLower() && vehicle.Model.ToLower() == model.ToLower())
+                if (vehicle.ID == id)
                 {
                     return vehicle;
                 }
@@ -155,6 +156,7 @@ namespace GoldBadgeConsoleAppClasses
         // Create
         public void CreateVehicle(Vehicle newVehicle)
         {
+            newVehicle.ID = _vehicleList.Count + 1;
             _vehicleList.Add(newVehicle);
         }
 
@@ -167,7 +169,7 @@ namespace GoldBadgeConsoleAppClasses
         // Update
         public bool EditVehicle(Vehicle oldVehicle, double newMileage, decimal newBasePrice)
         {
-            var editVehicle = FindVehicleByYMM(oldVehicle.Year, oldVehicle.Make, oldVehicle.Model);
+            var editVehicle = FindVehicleByYMM(oldVehicle.ID);
             if (editVehicle != null)
             {
                 editVehicle.Mileage = newMileage;
@@ -184,7 +186,7 @@ namespace GoldBadgeConsoleAppClasses
         // Delete
         public bool DeleteVehicle(Vehicle vehicle)
         {
-            var deleteVehicle = FindVehicleByYMM(vehicle.Year, vehicle.Make, vehicle.Model);
+            var deleteVehicle = FindVehicleByYMM(vehicle.ID);
             if (deleteVehicle != null)
             {
                 _vehicleList.Remove(deleteVehicle);
